@@ -28,7 +28,7 @@ public class VSMS extends Application
             
             Scene scene = new Scene(root);
             
-            primaryStage.setTitle("Hello World!");
+            primaryStage.setTitle("Vehicle Service Management System");
             primaryStage.setScene(scene);
             primaryStage.show();
         } catch (IOException ex)
