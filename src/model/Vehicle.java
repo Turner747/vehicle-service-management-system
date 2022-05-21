@@ -1,4 +1,4 @@
-package Model;
+package model;
 
 /*
  * Joshua Turner 
@@ -10,10 +10,10 @@ package Model;
  * COIT12200
  */
 
-public class Vehicle extends Customer
+public class Vehicle
 {
     private int vehicleID;
-    private Customer customer;
+    private int ownerID;
     private String make;
     private String model;
     private String year;
@@ -24,26 +24,28 @@ public class Vehicle extends Customer
         //no-argument constructor
     }
     
-    //constructor for Vehicles
-    public Vehicle(int vid, int cid, String mak, String mod, String y, int o)
+    // full constructor for Vehicles
+
+    public Vehicle(int vehicleID, int ownerID, String make, String model, String year, int odometer)
     {
-        super(cid);
-        setVehicleID(vid);
-        setMake(mak);
-        setModel(mod);
-        setYear(y);
-        setOdometer(o);
-        
+        this.vehicleID = vehicleID;
+        this.ownerID = ownerID;
+        this.make = make;
+        this.model = model;
+        this.year = year;
+        this.odometer = odometer;
     }
-    
-    //constructors for Services
-    public Vehicle(int vid)
+
+    //constructor with no vehicle id, let database create id
+    public Vehicle(int ownerID, String make, String model, String year, int odometer)
     {
-        setVehicleID(vid);
+        this.ownerID = ownerID;
+        this.make = make;
+        this.model = model;
+        this.year = year;
+        this.odometer = odometer;
     }
-    
-    //constructor to add Vehicle -- Need to add with auto increment for VID
-    
+   
     //set and get methods
     public void setVehicleID(int vehicleID)
     {
@@ -54,15 +56,15 @@ public class Vehicle extends Customer
     {
         return vehicleID;
     }
-    
-    public void setCustomer(Customer customer)
+
+    public int getOwnerID()
     {
-        this.customer = customer;
+        return ownerID;
     }
-    
-    public int getCustomer()
+
+    public void setOwnerID(int ownerID)
     {
-        return customer.getCustomerID();
+        this.ownerID = ownerID;
     }
     
     public void setMake(String make)

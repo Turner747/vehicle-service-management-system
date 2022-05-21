@@ -1,4 +1,4 @@
-package Model;
+package model;
 
 /*
  * Joshua Turner 
@@ -25,27 +25,31 @@ public class Customer
         //no-argument constructor
     }
     
-    public Customer(int cid, String first, String last, String address, String suburb, String state, String postcode, String phone) 
+    // full contructor to be used when getting values for database
+    public Customer(int customerID, String firstName, String lastName, String address, String suburb, String state, String postcode, String phoneNo)
     {
-        setCustomerID(cid);
-        setFirstName(first);
-        setLastName(last);
-        setAddress(address);
-        setSuburb(suburb);
-        setState(state);
-        setPostcode(postcode);
-        setPhoneNo(phone);
-        
+        this.customerID = customerID;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.address = address;
+        this.suburb = suburb;
+        this.state = state;
+        this.postcode = postcode;
+        this.phoneNo = phoneNo;
     }
     
-    //constructor for Vehicles
     
-    public Customer(int cid)
+    //constructor with no Customer ID, add to database, let database assign Customer ID
+    public Customer(String firstName, String lastName, String address, String suburb, String state, String postcode, String phoneNo)
     {
-        setCustomerID(cid);
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.address = address;
+        this.suburb = suburb;
+        this.state = state;
+        this.postcode = postcode;
+        this.phoneNo = phoneNo;
     }
-    
-    //constructor to add Customer -- Need to add with auto increment for CID
     
     //set and get methods
     public void setCustomerID(int customerID) 
