@@ -1,4 +1,4 @@
-package Controller;
+package controller;
 
 
 import java.io.IOException;
@@ -9,7 +9,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import View.MessageView;
+import view.MessageView;
 
 /**
  *
@@ -24,7 +24,7 @@ public class VSMS extends Application
         
         try
         {
-            Parent root = FXMLLoader.load(View.MessageView.class.getResource("VSMSView.fxml"));
+            Parent root = FXMLLoader.load(view.MessageView.class.getResource("VSMSView.fxml"));
             
             Scene scene = new Scene(root);
             

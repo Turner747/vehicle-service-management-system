@@ -1,4 +1,4 @@
-package Model;
+package model;
 
 import java.util.Date;
 
@@ -12,10 +12,10 @@ import java.util.Date;
  * COIT12200
  */
 
-public class Service extends Vehicle
+public class Service
 {
     private int serviceID;
-    private Vehicle vehicle;
+    private int vehicleID;
     private String description;
     private Date serviceDate;
     private float price;
@@ -25,23 +25,26 @@ public class Service extends Vehicle
         //no-argument constructor
     }
     
-    //constructor for Services
-    public Service (int sid, int vid, String descr, Date servDate, float price)
+    // full constructor for gettings Services from database
+    public Service(int serviceID, int vehicleID, String description, Date serviceDate, float price)
     {
-    super(vid);
-    setServiceID(sid);
-    setDescription(descr);
-    setServiceDate(servDate);
-    setPrice(price);
-        
+        this.serviceID = serviceID;
+        this.vehicleID = vehicleID;
+        this.description = description;
+        this.serviceDate = serviceDate;
+        this.price = price;
+    }
+
+    // constructor with no service ID, add to database, let database assign service ID
+    public Service(int vehicleID, String description, Date serviceDate, float price)
+    {
+        this.vehicleID = vehicleID;
+        this.description = description;
+        this.serviceDate = serviceDate;
+        this.price = price;
     }
     
-    public Service (Vehicle vehicle)
-    {
-        this.vehicle = vehicle;
-    }
     
-    //constructor to add Service -- Need to add with auto increment for SID
     
     //set and get methods
     public void setServiceID(int serviceID)
@@ -53,15 +56,15 @@ public class Service extends Vehicle
     {
         return serviceID;
     }
-       
-    public void setVehicle(Vehicle vehicle)
+
+    public int getVehicleID()
     {
-        this.vehicle = vehicle;
+        return vehicleID;
     }
-    
-    public int getVehicle()
+
+    public void setVehicleID(int vehicleID)
     {
-        return vehicle.getVehicleID();
+        this.vehicleID = vehicleID;
     }
     
     public void setDescription(String description)
