@@ -16,6 +16,7 @@ public class Service
 {
     private int serviceID;
     private int vehicleID;
+    private String licencePlate; // required for service table
     private String description;
     private Date serviceDate;
     private float price;
@@ -25,11 +26,22 @@ public class Service
         //no-argument constructor
     }
     
-    // full constructor for gettings Services from database
+    // constructor for gettings Services from database, no licence plate
     public Service(int serviceID, int vehicleID, String description, Date serviceDate, float price)
     {
         this.serviceID = serviceID;
         this.vehicleID = vehicleID;
+        this.description = description;
+        this.serviceDate = serviceDate;
+        this.price = price;
+    }
+    
+    // full constructor for gettings Services from database, no licence plate
+    public Service(int serviceID, int vehicleID, String licencePlate, String description, Date serviceDate, float price)
+    {
+        this.serviceID = serviceID;
+        this.vehicleID = vehicleID;
+        this.licencePlate = licencePlate;
         this.description = description;
         this.serviceDate = serviceDate;
         this.price = price;
@@ -65,6 +77,16 @@ public class Service
     public void setVehicleID(int vehicleID)
     {
         this.vehicleID = vehicleID;
+    }
+
+    public String getLicencePlate()
+    {
+        return licencePlate;
+    }
+
+    public void setLicencePlate(String licencePlate)
+    {
+        this.licencePlate = licencePlate;
     }
     
     public void setDescription(String description)

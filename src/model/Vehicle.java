@@ -14,6 +14,7 @@ public class Vehicle
 {
     private int vehicleID;
     private int ownerID;
+    private String ownerName; //required for vehicle table
     private String make;
     private String model;
     private String year;
@@ -24,12 +25,23 @@ public class Vehicle
         //no-argument constructor
     }
     
-    // full constructor for Vehicles
-
+    // constructor for Vehicles with no owner name
     public Vehicle(int vehicleID, int ownerID, String make, String model, String year, int odometer)
     {
         this.vehicleID = vehicleID;
         this.ownerID = ownerID;
+        this.make = make;
+        this.model = model;
+        this.year = year;
+        this.odometer = odometer;
+    }
+    
+    // constructor for Vehicles with no owner name, required for vehicle table
+    public Vehicle(int vehicleID, int ownerID, String OwnerName, String make, String model, String year, int odometer)
+    {
+        this.vehicleID = vehicleID;
+        this.ownerID = ownerID;
+        this.ownerName = ownerName;
         this.make = make;
         this.model = model;
         this.year = year;
@@ -65,6 +77,16 @@ public class Vehicle
     public void setOwnerID(int ownerID)
     {
         this.ownerID = ownerID;
+    }
+
+    public String getOwnerName()
+    {
+        return ownerName;
+    }
+
+    public void setOwnerName(String ownerName)
+    {
+        this.ownerName = ownerName;
     }
     
     public void setMake(String make)
