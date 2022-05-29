@@ -18,6 +18,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import model.*;
+import view.*;
 
 public class VSMSViewController {
     
@@ -150,7 +151,7 @@ public class VSMSViewController {
 
     @FXML
     void aboutBtnClicked(ActionEvent event) {
-
+        MessageView.displayAboutDialog();
     }
 
     @FXML

@@ -161,13 +161,19 @@ public class MessageView
         return serv;
     }
     
-    
+    public static void displayServiceReportDialog()
+    {
+        
+        
+        
+    }
     
 
     /**
      * Display about window
      */
-    public static void displayAboutDialog(){
+    public static void displayAboutDialog()
+    {
         Alert a = new Alert(Alert.AlertType.INFORMATION);
         
         a.setTitle(WINDOW_TITLE);
