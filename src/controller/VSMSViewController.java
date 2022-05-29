@@ -10,89 +10,111 @@ package controller;
  * COIT12200
  */
 
+import java.util.Date;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import model.*;
 
 public class VSMSViewController {
-
+    
+    //common buttons
     @FXML
     private Button aboutBtn;
 
     @FXML
+    private Button quitBtn;
+    
+    @FXML
+    private Button serviceReportBtn;
+
+    
+    //customer tab
+    @FXML
     private Button addCustomerBtn;
-
-    @FXML
-    private Button addServiceBtn;
-
-    @FXML
-    private Button addVehicleBtn;
-
-    @FXML
-    private TableColumn<?, ?> addressCol;
-
-    @FXML
-    private TableColumn<?, ?> customerIdCol;
-
-    @FXML
-    private TableView<?> customerTableView;
-
-    @FXML
-    private TableColumn<?, ?> descriptionCol;
-
+    
     @FXML
     private Button editCustomerBtn;
-
-    @FXML
-    private Button editServiceBtn;
-
-    @FXML
-    private Button editVehicleBtn;
-
-    @FXML
-    private TableColumn<?, ?> firstNameCol;
-
-    @FXML
-    private TableColumn<?, ?> lastNameCol;
-
-    @FXML
-    private TableColumn<?, ?> makeCol;
-
-    @FXML
-    private TableColumn<?, ?> modelCol;
-
-    @FXML
-    private TableColumn<?, ?> odometerCol;
-
-    @FXML
-    private TableColumn<?, ?> ownerCol;
-
-    @FXML
-    private TableColumn<?, ?> phoneCol;
-
-    @FXML
-    private TableColumn<?, ?> postcodeCol;
-
-    @FXML
-    private TableColumn<?, ?> priceCol;
-
-    @FXML
-    private Button quitBtn;
-
+    
     @FXML
     private Button searchCustomerBtn;
 
     @FXML
     private TextField searchCustomerTxtField;
+    
+    
+    // customer table
+    @FXML
+    private TableView<Customer> customerTableView;
 
+    @FXML
+    private TableColumn<Customer, Integer> customerIdCol;
+    
+    @FXML
+    private TableColumn<Customer, String> firstNameCol;
+
+    @FXML
+    private TableColumn<Customer, String> lastNameCol;
+    
+    @FXML
+    private TableColumn<Customer, String> addressCol;
+    
+    @FXML
+    private TableColumn<Customer, String> suburbCol;
+    
+    @FXML
+    private TableColumn<Customer, String> stateCol;
+    
+    @FXML
+    private TableColumn<Customer, String> postcodeCol;
+    
+    @FXML
+    private TableColumn<Customer, String> phoneCol;
+    
+    
+    //service tab
+    @FXML
+    private Button addServiceBtn;
+    
+    @FXML
+    private Button editServiceBtn;
+    
     @FXML
     private Button searchServiceBtn;
 
     @FXML
     private TextField searchServiceTxtField;
+    
+    
+    //service table
+    @FXML
+    private TableView<Service> serviceTableView;
+    
+    @FXML
+    private TableColumn<Service, Integer> serviceIdCol;
+    
+    @FXML
+    private TableColumn<Service, Date> serviceDateCol;
+
+    @FXML
+    private TableColumn<Service, String> serviceVehicleCol;
+
+    @FXML
+    private TableColumn<Service, String> descriptionCol;
+
+    @FXML
+    private TableColumn<Service, Float> priceCol;
+
+    
+    //vehicle tab
+     @FXML
+    private Button addVehicleBtn;
+    
+    @FXML
+    private Button editVehicleBtn;
 
     @FXML
     private Button searchVehicleBtn;
@@ -100,32 +122,31 @@ public class VSMSViewController {
     @FXML
     private TextField searchVehicleTxtField;
 
+    
+    //vehicle table
     @FXML
-    private TableColumn<?, ?> serviceDateCol;
+    private TableView<Vehicle> vehicleTableView;
+    
+    @FXML
+    private TableColumn<Vehicle, Integer> vehicleIdCol;
 
     @FXML
-    private TableColumn<?, ?> serviceIdCol;
+    private TableColumn<Vehicle, String> ownerCol;    
+    
+    @FXML
+    private TableColumn<Vehicle, String> makeCol;
 
     @FXML
-    private Button serviceReportBtn;
+    private TableColumn<Vehicle, String> modelCol;
+    
+    @FXML
+    private TableColumn<Vehicle, String> yearCol;
 
     @FXML
-    private TableColumn<?, ?> serviceVehicleCol;
+    private TableColumn<Vehicle, Integer> odometerCol;
 
-    @FXML
-    private TableColumn<?, ?> stateCol;
+    
 
-    @FXML
-    private TableColumn<?, ?> suburbCol;
-
-    @FXML
-    private TableColumn<?, ?> vehicleIdCol;
-
-    @FXML
-    private TableView<?> vehicleTableView;
-
-    @FXML
-    private TableColumn<?, ?> yearCol;
 
     @FXML
     void aboutBtnClicked(ActionEvent event) {
