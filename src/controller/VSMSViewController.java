@@ -13,6 +13,7 @@ package controller;
 import java.util.Date;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.chart.BarChart;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -84,6 +85,9 @@ public class VSMSViewController {
     private Button editServiceBtn;
     
     @FXML
+    private Button cancelServiceBtn;
+    
+    @FXML
     private Button searchServiceBtn;
 
     @FXML
@@ -146,9 +150,35 @@ public class VSMSViewController {
     @FXML
     private TableColumn<Vehicle, Integer> odometerCol;
 
+    // manage report tab
+    
+    @FXML
+    private TextField minStatTxtField;
+    
+    @FXML
+    private TextField maxStatTxtField;
+    
+    @FXML
+    private TextField avgStatTxtField;
+    
+    @FXML
+    private BarChart<String, Number> brandBarChart;
+    
+    @FXML
+    private TableView<MakeStatTableItem> serviceMakeStatTable;
+    
+    @FXML
+    private TableColumn<MakeStatTableItem, String> makeStatCol;
+
+    @FXML
+    private TableColumn<MakeStatTableItem, Integer> serviceStatCol;
     
 
-
+    @FXML
+    void initialize() {
+        
+    }
+    
     @FXML
     void aboutBtnClicked(ActionEvent event) {
         MessageView.displayAboutDialog();
@@ -176,6 +206,11 @@ public class VSMSViewController {
 
     @FXML
     void editServiceBtnClicked(ActionEvent event) {
+
+    }
+    
+    @FXML
+    void cancelServiceBtnClicked(ActionEvent event) {
 
     }
 
@@ -209,4 +244,8 @@ public class VSMSViewController {
 
     }
 
+    private static void refreshReportsTab(){
+        
+    }
+    
 }
