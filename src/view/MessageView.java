@@ -18,6 +18,8 @@ import model.Vehicle;
  * S0258441
  * Isabel Rigby
  * S0077632
+ * Joshua Robertson
+ * 12071409 
  * Assignment 3
  * Software Design & Development
  * COIT12200
@@ -193,8 +195,8 @@ public class MessageView
         grid.add(new Label("Isabel R"), 1, 1);
         grid.add(new Label("S0077632"), 2, 1); 
         
-        grid.add(new Label("Joshua R"), 1, 2);
-        grid.add(new Label("student id"), 2, 2); 
+        grid.add(new Label("Joshua Robertson"), 1, 2);
+        grid.add(new Label("12071409"), 2, 2); 
         
         grid.add(new Label("Version Number:"), 0, 3);
         grid.add(new Label("TBA"), 1, 3);
