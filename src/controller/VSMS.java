@@ -13,10 +13,18 @@ import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import view.MessageView;
 
-/**
- *
- * @author josht
+/*
+ * Joshua Turner 
+ * S0258441
+ * Isabel Rigby
+ * S0077632
+ * Joshua Robertson
+ * 12071409 
+ * Assignment 3
+ * Software Design & Development
+ * COIT12200
  */
+
 public class VSMS extends Application
 {
     
