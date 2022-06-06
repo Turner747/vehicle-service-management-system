@@ -192,7 +192,7 @@ public class MessageView
         grid.add(new Label("Joshua Turner"), 1, 0);
         grid.add(new Label("s0258441"), 2, 0);     
         
-        grid.add(new Label("Isabel R"), 1, 1);
+        grid.add(new Label("Isabel Rigby"), 1, 1);
         grid.add(new Label("S0077632"), 2, 1); 
         
         grid.add(new Label("Joshua Robertson"), 1, 2);

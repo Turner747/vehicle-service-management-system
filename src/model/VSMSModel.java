@@ -508,5 +508,84 @@ public class VSMSModel
         return services;
     }
     
+    public static void serviceReportStats()
+    {
+                
+        //SQL statement
+        String sql = "SELECT MIN(PRICE), MAX(PRICE), AVG(PRICE) FROM SERVICE";
+        
+        try {
+                    Statement st = estDatabaseConnection().createStatement();
+                    ResultSet rs = st.executeQuery(sql);
+
+                    //loop through database results
+                    while(rs.next()) { 
+                       
+                        rs.getInt("MIN(PRICE)");
+                        rs.getInt("MAX(PRICE)");
+                        rs.getInt("AVG(PRICE)");
+                        
+                    }
+
+                }
+        
+        catch (Exception e) {
+            MessageView.displayError("Error for min/max/avg stat");
+        }
+                
+    }
+    
+    public static void serviceReportByMake()
+    {
+                
+        //SQL statement
+        String sql = "SELECT V.MAKE, COUNT(V.MAKE) FROM SERVICE AS S, VEHICLE AS V WHERE S.VEHICLEID = V.VEHICLEID GROUP BY V.MAKE";
+        
+        try {
+                    Statement st = estDatabaseConnection().createStatement();
+                    ResultSet rs = st.executeQuery(sql);
+
+                    //loop through database results
+                    while(rs.next()) { 
+                       
+                        rs.getInt("MAKE");
+                        rs.getInt("COUNT(MAKE)");
+                        
+                    }
+
+                }
+        
+        catch (Exception e) {
+            MessageView.displayError("Error SERVICE NUMBERS BY MAKE");
+        }
+                
+    }
+    
+    public static void serviceReportTopMakes()
+    {
+                
+        //SQL statement
+        String sql = "SELECT V.MAKE, COUNT(V.MAKE) FROM SERVICE AS S, VEHICLE AS V WHERE S.VEHICLEID = V.VEHICLEID GROUP BY V.MAKE GROUP BY V.MAKE ORDER BY COUNT(V.MAKE) DESC LIMIT 3";
+        
+        try {
+                    Statement st = estDatabaseConnection().createStatement();
+                    ResultSet rs = st.executeQuery(sql);
+
+                    //loop through database results
+                    while(rs.next()) { 
+                       
+                        rs.getInt("MAKE");
+                        rs.getInt("COUNT(MAKE)");
+                        
+                    }
+
+                }
+        
+        catch (Exception e) {
+            MessageView.displayError("Error FOR TOP 3 MAKE");
+        }
+                
+    }
+    
     
 }
