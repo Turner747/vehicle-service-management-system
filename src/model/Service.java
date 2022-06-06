@@ -1,6 +1,6 @@
 package model;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 /*
  * Joshua Turner 
@@ -20,26 +20,29 @@ public class Service
     private int vehicleID;
     private String licencePlate; // required for service table
     private String description;
-    private Date serviceDate;
+    private LocalDate serviceDate;
     private float price;
+    private int recordStatus;  // 1 = active, 0 = cancelled
     
     public Service()
     {
-        //no-argument constructor
+        serviceID = 0; //used for validation
+        recordStatus = 1;
     }
     
     // constructor for gettings Services from database, no licence plate
-    public Service(int serviceID, int vehicleID, String description, Date serviceDate, float price)
+    public Service(int serviceID, int vehicleID, String description, LocalDate serviceDate, float price)
     {
         this.serviceID = serviceID;
         this.vehicleID = vehicleID;
         this.description = description;
         this.serviceDate = serviceDate;
         this.price = price;
+        this.recordStatus = 1;
     }
     
     // full constructor for gettings Services from database, no licence plate
-    public Service(int serviceID, int vehicleID, String licencePlate, String description, Date serviceDate, float price)
+    public Service(int serviceID, int vehicleID, String licencePlate, String description, LocalDate serviceDate, float price)
     {
         this.serviceID = serviceID;
         this.vehicleID = vehicleID;
@@ -47,15 +50,17 @@ public class Service
         this.description = description;
         this.serviceDate = serviceDate;
         this.price = price;
+        this.recordStatus = 1;
     }
 
     // constructor with no service ID, add to database, let database assign service ID
-    public Service(int vehicleID, String description, Date serviceDate, float price)
+    public Service(int vehicleID, String description, LocalDate serviceDate, float price)
     {
         this.vehicleID = vehicleID;
         this.description = description;
         this.serviceDate = serviceDate;
         this.price = price;
+        this.recordStatus = 1;
     }
     
     
@@ -101,12 +106,12 @@ public class Service
         return description;
     }
     
-    public void setServiceDate(Date serviceDate)
+    public void setServiceDate(LocalDate serviceDate)
     {
         this.serviceDate = serviceDate;
     }
     
-    public Date getServiceDate()
+    public LocalDate getServiceDate()
     {
         return serviceDate;
     }
@@ -120,5 +125,15 @@ public class Service
     {
         return price;
     }
-    
+
+    public int getRecordStatus()
+    {
+        return recordStatus;
+    }
+
+    public void setRecordStatus(int recordStatus)
+    {
+        this.recordStatus = recordStatus;
+    }
+       
 }

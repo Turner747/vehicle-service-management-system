@@ -24,7 +24,7 @@ public class Customer
     private String phoneNo;
     
     public Customer() {
-        //no-argument constructor
+        customerID = 0; //used for validation
     }
     
     // full contructor to be used when getting values for database
@@ -44,6 +44,7 @@ public class Customer
     //constructor with no Customer ID, add to database, let database assign Customer ID
     public Customer(String firstName, String lastName, String address, String suburb, String state, String postcode, String phoneNo)
     {
+        customerID = 1; // used for validation
         this.firstName = firstName;
         this.lastName = lastName;
         this.address = address;
