@@ -91,11 +91,12 @@
                         <TableView fx:id="vehicleTableView" GridPane.columnSpan="4" GridPane.rowIndex="1">
                           <columns>
                             <TableColumn fx:id="vehicleIdCol" prefWidth="75.0" resizable="false" text="Vehicle ID" />
-                            <TableColumn fx:id="ownerCol" prefWidth="279.0" resizable="false" text="Owner" />
-                              <TableColumn fx:id="makeCol" minWidth="0.0" prefWidth="262.0" resizable="false" text="Make" />
-                              <TableColumn fx:id="modelCol" prefWidth="250.0" resizable="false" text="Model" />
-                              <TableColumn fx:id="yearCol" prefWidth="99.0" resizable="false" text="Year" />
-                              <TableColumn fx:id="odometerCol" prefWidth="194.0" resizable="false" text="Odometer" />
+                              <TableColumn fx:id="licencePlateCol" prefWidth="129.0" resizable="false" text="Licence plate" />
+                            <TableColumn fx:id="ownerCol" prefWidth="227.0" resizable="false" text="Owner" />
+                              <TableColumn fx:id="makeCol" minWidth="0.0" prefWidth="208.0" resizable="false" text="Make" />
+                              <TableColumn fx:id="modelCol" prefWidth="194.0" resizable="false" text="Model" />
+                              <TableColumn fx:id="yearCol" prefWidth="165.0" resizable="false" text="Year" />
+                              <TableColumn fx:id="odometerCol" prefWidth="160.0" resizable="false" text="Odometer" />
                           </columns>
                            <columnResizePolicy>
                               <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />

@@ -136,6 +136,9 @@ public class VSMSViewController {
     
     @FXML
     private TableColumn<Vehicle, Integer> vehicleIdCol;
+    
+    @FXML
+    private TableColumn<Vehicle, String> licencePlateCol;
 
     @FXML
     private TableColumn<Vehicle, String> ownerCol;    
@@ -188,21 +191,41 @@ public class VSMSViewController {
 
     @FXML
     void addCustomerBtnClicked(ActionEvent event) {
-
+        
+        Customer newCust = MessageView.displayNewCustomerDialog();
+        
+        if(newCust.getCustomerID() != 0)
+            VSMSModel.addCustomerToDB(newCust);
+        
     }
 
     @FXML
     void addServiceBtnClicked(ActionEvent event) {
 
+        Service newServ = MessageView.displayNewServiceDialog();
+        
+        if(newServ.getServiceID() != 0)
+            VSMSModel.addServiceToDB(newServ);
     }
 
     @FXML
     void addVehicleBtnClicked(ActionEvent event) {
 
+        Vehicle newVeh = MessageView.displayNewVehicleDialog();
+        
+        if(newVeh.getVehicleID() != 0)
+            VSMSModel.addVehicleToDB(newVeh);
     }
 
     @FXML
     void editCustomerBtnClicked(ActionEvent event) {
+        
+        // Customer selectedCust = customerTableView.getSelectionModel().getSelectedItem(); // live code
+        Customer selectedCust = new Customer (6,"w","w","w","w","w","w","w"); // testing purposes
+        
+        Customer updatedCust = MessageView.displayUpdateCustomerDialog(selectedCust);
+        
+        VSMSModel.updateCustomerInDB(updatedCust);
 
     }
 
@@ -219,11 +242,18 @@ public class VSMSViewController {
     @FXML
     void editVehicleBtnClicked(ActionEvent event) {
 
+        //Vehicle selectedVeh = vehicleTableView.getSelectionModel().getSelectedItem(); // live code
+        Vehicle selectedVeh = new Vehicle(8,4,"er","er","er", "er",20);
+        
+        Vehicle updatedVeh = MessageView.displayUpdateVehicleDialog(selectedVeh);
+        
+        VSMSModel.updateVehicleInDB(updatedVeh);
+        
     }
 
     @FXML
     void quitBtnClicked(ActionEvent event) {
-
+        MessageView.displayExitDialog(event);
     }
 
     @FXML
