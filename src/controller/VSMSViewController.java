@@ -283,8 +283,8 @@ public class VSMSViewController {
     @FXML
     void editCustomerBtnClicked(ActionEvent event) {
         
-        // Customer selectedCust = customerTableView.getSelectionModel().getSelectedItem(); // live code
-        Customer selectedCust = VSMSModel.getCustomerFromDB(2); // testing purposes
+        Customer selectedCust = customerTableView.getSelectionModel().getSelectedItem(); // live code
+        //Customer selectedCust = VSMSModel.getCustomerFromDB(2); // testing purposes
         
         Customer updatedCust = MessageView.displayUpdateCustomerDialog(selectedCust);
         
@@ -298,8 +298,8 @@ public class VSMSViewController {
     @FXML
     void editServiceBtnClicked(ActionEvent event) {
 
-        // Service selectedServ = serviceTableView.getSelectionModel().getSelectedItem(); // live code
-        Service selectedServ = VSMSModel.getServiceFromDB(1); // testing purposes
+        Service selectedServ = serviceTableView.getSelectionModel().getSelectedItem(); // live code
+        //Service selectedServ = VSMSModel.getServiceFromDB(1); // testing purposes
         
         Service updatedServ = MessageView.displayUpdateServiceDialog(selectedServ);
         
@@ -313,8 +313,8 @@ public class VSMSViewController {
     @FXML
     void cancelServiceBtnClicked(ActionEvent event) {
 
-        // Service selectedServ = serviceTableView.getSelectionModel().getSelectedItem(); // live code
-        Service selectedServ = VSMSModel.getServiceFromDB(2); // testing purposes
+        Service selectedServ = serviceTableView.getSelectionModel().getSelectedItem(); // live code
+        //Service selectedServ = VSMSModel.getServiceFromDB(2); // testing purposes
         
         boolean confirmed = MessageView.displayConfirmDialog(event,
                 "Are you sure you want to cancel this service?");
@@ -332,8 +332,8 @@ public class VSMSViewController {
     @FXML
     void editVehicleBtnClicked(ActionEvent event) {
 
-        //Vehicle selectedVeh = vehicleTableView.getSelectionModel().getSelectedItem(); // live code
-        Vehicle selectedVeh = VSMSModel.getVehicleFromDB(4); //testing purposes
+        Vehicle selectedVeh = vehicleTableView.getSelectionModel().getSelectedItem(); // live code
+        //Vehicle selectedVeh = VSMSModel.getVehicleFromDB(4); //testing purposes
         
         Vehicle updatedVeh = MessageView.displayUpdateVehicleDialog(selectedVeh);
         
