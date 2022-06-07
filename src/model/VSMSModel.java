@@ -27,7 +27,7 @@ public class VSMSModel
 {
     private static final String DATABASE = "CarServiceDB";
     private static final String USER = "root";
-    private static final String PSWRD = "password";
+    private static final String PSWRD = "pssword";
     private static final String HOST = "localhost";
     private static final String DRIVER = "com.mysql.cj.jdbc.Driver";
     
@@ -179,13 +179,13 @@ public class VSMSModel
                 customer.setSuburb(rs.getString("Suburb"));
                 customer.setState(rs.getString("State"));
                 customer.setPostcode(rs.getString("Postcode"));
-                customer.setPhoneNo(rs.getString("PhoneNbr"));
+                customer.setPhoneNo(rs.getString("Phone"));
                 
                 list.add(customer);
             }                    
         }
         catch (Exception e) {
-            MessageView.displayException(e, "No error when trying to add customer to the database");
+            MessageView.displayException(e, "No error when trying to customer list from the database");
         }
                 
         // covert array list to observable list
