@@ -3,6 +3,7 @@ package view;
 import java.awt.event.MouseEvent;
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.time.LocalDate;
 import java.util.Optional;
 import javafx.application.Platform;
 import javafx.collections.ObservableList;
@@ -69,6 +70,32 @@ public class MessageView
         a.setTitle(WINDOW_TITLE);
         a.setContentText(message);
         a.show();
+    }
+    
+    public static boolean displayConfirmDialog(Event e, String prompt){
+        boolean confirmed = false;
+        
+        Alert a = new Alert(Alert.AlertType.CONFIRMATION, 
+                    "Confirmation", 
+                    ButtonType.YES,
+                    ButtonType.NO);
+        a.setTitle(WINDOW_TITLE);
+        a.setContentText(prompt);
+        
+        ButtonType yesButton = new ButtonType("Yes");
+        
+        a.getButtonTypes().setAll(yesButton, ButtonType.CANCEL);
+        
+        Optional<ButtonType> confirm = a.showAndWait();
+        if (confirm.isPresent() && confirm.get() == yesButton){
+            
+            confirmed = true;
+        }
+        else {
+            e.consume();
+        }
+        
+        return confirmed;
     }
     
     
@@ -427,7 +454,7 @@ public class MessageView
     
     public static Vehicle displayNewVehicleDialog()
     {
-        Vehicle veh = new Vehicle();
+        Vehicle veh = null;
         
         Dialog dialog = new Dialog<>();     // new dialog pane
         
@@ -544,12 +571,12 @@ public class MessageView
             // attempt to create object
             try{
                 // instantiate temporary object
-                veh.setOwnerID(owner.getCustomerID());
-                veh.setLicencePlate(licenceTextField.getText());
-                veh.setMake(makeTextField.getText());
-                veh.setModel(modelTextField.getText());
-                veh.setYear(yearTextField.getText());
-                veh.setOdometer(Integer.parseInt(odometerTextField.getText()));
+                veh = new Vehicle(owner.getCustomerID(),
+                        licenceTextField.getText(),
+                        makeTextField.getText(),
+                        modelTextField.getText(),
+                        yearTextField.getText(),
+                        Integer.parseInt(odometerTextField.getText()));
 
             } // if incorrect data type has been entered an exception will be thrown
             catch(Exception e)
@@ -560,6 +587,10 @@ public class MessageView
                 // display the exception error window
                 displayException(e, message);
             }
+        }
+        else
+        {
+            veh = new Vehicle();
         }
         
         owner = null;
@@ -702,6 +733,10 @@ public class MessageView
                 displayException(e, message);
             }
         }
+        else
+        {
+            veh = new Vehicle();
+        }
         
         owner = null;
         return veh;
@@ -711,7 +746,7 @@ public class MessageView
     
     public static Service displayNewServiceDialog()
     {
-        Service serv = new Service();
+        Service serv = null;
         
         Dialog dialog = new Dialog<>();     // new dialog pane
         
@@ -812,6 +847,136 @@ public class MessageView
             // attempt to create object
             try{
                 // instantiate temporary object
+                serv = new Service(serviceVeh.getVehicleID(),
+                        descriptionTextArea.getText(),
+                        serviceDatePicker.getValue(),
+                        Float.parseFloat(priceTextField.getText()));
+
+            } // if incorrect data type has been entered an exception will be thrown
+            catch(Exception e)
+            {
+                // create error message
+                String message = "create service object error";
+
+                // display the exception error window
+                displayException(e, message);
+            }
+        }
+        else
+        {
+            serv = new Service();
+        }
+        
+        serviceVeh = null;
+        return serv;
+    }
+    
+    public static Service displayUpdateServiceDialog(Service serv)
+    {
+        serviceVeh = VSMSModel.getVehicleFromDB(serv.getVehicleID());
+        
+        Dialog dialog = new Dialog<>();     // new dialog pane
+        
+        dialog.setTitle(WINDOW_TITLE + " - Update Service");      // add title
+        dialog.setHeaderText("Update Services Details");     // add header
+        
+        ButtonType addInputButton = new         // initialise add button
+                ButtonType("Update", ButtonData.OK_DONE);
+        
+        dialog.getDialogPane().getButtonTypes().        // Set the button types
+                addAll(addInputButton, ButtonType.CANCEL);
+
+        // create the grid padding and set the sizes
+        GridPane grid = new GridPane();
+        grid.setHgap(10);
+        grid.setVgap(10);
+        grid.setPadding(new Insets(30, 30, 30, 30));
+
+        // create the input fields
+        
+        vehicleTextField = new TextField();
+        vehicleTextField.setDisable(true);
+        vehicleTextField.setText(serviceVeh.getLicencePlate() + ", " +
+                                        serviceVeh.getMake() + " " + serviceVeh.getModel());
+        
+        Button selectVehicleBtn = new Button("Select");
+        
+        EventHandler<ActionEvent> selectVehicleBtnClicked = new EventHandler<ActionEvent>(){
+            @Override
+            public void handle(ActionEvent e)
+            {
+                serviceVeh = displayVehicleSelectDialog();
+                
+                if(serviceVeh.getVehicleID() != 0)
+                    vehicleTextField.setText(serviceVeh.getLicencePlate() + ", " +
+                                        serviceVeh.getMake() + " " + serviceVeh.getModel());
+            }
+        };
+        
+        selectVehicleBtn.setOnAction(selectVehicleBtnClicked);
+           
+        TextArea descriptionTextArea = new TextArea();
+        descriptionTextArea.setText(serv.getDescription());
+
+        DatePicker serviceDatePicker = new DatePicker();
+        serviceDatePicker.setValue(serv.getServiceDate());
+
+        TextField priceTextField = new TextField();
+        priceTextField.setText(serv.getPrice() + "");
+        
+        
+        
+        // add labels and textfields to the gridpane
+        grid.add(new Label("Owner"), 0, 0);
+        grid.add(vehicleTextField, 1, 0);
+        grid.add(selectVehicleBtn, 2, 0);
+        
+        grid.add(new Label("Description"), 0, 1);
+        grid.add(descriptionTextArea, 1, 1);
+        grid.add(new Label("*"), 2, 1);        
+        
+        grid.add(new Label("Service date"), 0, 2);
+        grid.add(serviceDatePicker, 1, 2);
+        grid.add(new Label("*"), 2, 2);
+        
+        grid.add(new Label("Price"), 0, 3);
+        grid.add(priceTextField, 1, 3);
+        grid.add(new Label("*"), 2, 3);
+        
+        grid.add(new Label("* Required fields"), 1, 4, 2, 1);
+
+        dialog.getDialogPane().setContent(grid);    // add the grid to the dialog
+        
+        // disable add button if all required inputs have not been entered
+        Button add = (Button) dialog.getDialogPane().
+                                lookupButton(addInputButton);
+
+        add.disableProperty().bind(
+                vehicleTextField.textProperty().isEmpty().
+                or(descriptionTextArea.textProperty().isEmpty()).
+                or(serviceDatePicker.valueProperty().isNull()).
+                or(priceTextField.textProperty().isEmpty()));
+        
+        // validate inputs
+        add.addEventFilter(ActionEvent.ACTION, event -> 
+        {
+            //add input validation
+
+            //event.consume();
+        });
+        
+        // Request focus on the date field by default.
+        Platform.runLater(() -> selectVehicleBtn.requestFocus());
+        
+        // display the dialog and wait for a button to be pressed
+        Optional<ButtonType> result = dialog.showAndWait();
+        
+        // if the add button is pressed
+        if(result.isPresent() && result.get() == addInputButton)
+        {
+            // attempt to create object
+            try{
+                // instantiate temporary object
                 serv.setVehicleID(serviceVeh.getVehicleID());
                 serv.setDescription(descriptionTextArea.getText());
                 serv.setServiceDate(serviceDatePicker.getValue());
@@ -827,28 +992,16 @@ public class MessageView
                 displayException(e, message);
             }
         }
+        else
+        {
+            serv = new Service();
+        }
         
         serviceVeh = null;
-        return serv;
-    }
-    
-    public static Service displayUpdateServiceDialog(Service serv)
-    {
-        
-        
-        
         
         return serv;
     }
     
-    public static void displayServiceReportDialog()
-    {
-        
-        
-        
-    }
-    
-
     /**
      * Display about window
      */
