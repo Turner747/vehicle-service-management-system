@@ -56,6 +56,7 @@ public class Service
     // constructor with no service ID, add to database, let database assign service ID
     public Service(int vehicleID, String description, LocalDate serviceDate, float price)
     {
+        serviceID = 1; //used for validation
         this.vehicleID = vehicleID;
         this.description = description;
         this.serviceDate = serviceDate;

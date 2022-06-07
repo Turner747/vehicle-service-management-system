@@ -26,9 +26,9 @@ import view.MessageView;
 public class VSMSModel
 {
     private static final String DATABASE = "CarServiceDB";
-    private static final String USER = "";
-    private static final String PSWRD = "";
-    private static final String HOST = "";
+    private static final String USER = "root";
+    private static final String PSWRD = "password";
+    private static final String HOST = "localhost";
     private static final String DRIVER = "com.mysql.cj.jdbc.Driver";
     
     // database connection
@@ -298,9 +298,50 @@ public class VSMSModel
     }
     
     //
-    public static Vehicle getVehicleFromDB(int VehicleID)
+    public static Vehicle getVehicleFromDB(int vehicleID)
     {
         Vehicle veh = new Vehicle();
+        
+        //SQL statement
+        String sql = "SELECT\n" +
+                     "	  V.VehicleID,\n" +
+                     "    V.LicencePlate,\n" +
+                     "    V.OwnerID,\n" +
+                     "    CONCAT(C.FirstName, ' ', C.LastName) AS OwnerName,\n" +
+                     "    V.Make,\n" +
+                     "    V.Model,\n" +
+                     "    V.Year,\n" +
+                     "    V.Odometer\n" +
+                     "FROM\n" +
+                     "	VEHICLE AS V\n" +
+                     "INNER JOIN\n" +
+                     "	CUSTOMER AS C\n" +
+                     "		ON C.CustomerID = V.OwnerID\n" +
+                     "WHERE V.VehicleID = " + vehicleID + ";";
+        
+        //run statement        
+        try {
+            Statement st = estDatabaseConnection().createStatement();
+            ResultSet rs = st.executeQuery(sql);
+            
+            //loop through database results
+            while(rs.next()) { 
+                
+                veh.setVehicleID(rs.getInt("VehicleID"));
+                veh.setLicencePlate(rs.getString("LicencePlate"));
+                veh.setOwnerID(rs.getInt("OwnerID"));
+                veh.setOwnerName(rs.getString("OwnerName"));                
+                veh.setMake(rs.getString("Make"));
+                veh.setModel(rs.getString("Model"));
+                veh.setYear(rs.getString("Year"));
+                veh.setOdometer(rs.getInt("Odometer"));
+                
+            }       
+        }
+        catch (Exception e) 
+        {
+            MessageView.displayException(e,"Error when getting vehicle from database");
+        }
         
         return veh;
     }
@@ -378,7 +419,7 @@ public class VSMSModel
                      "	VEHICLE AS V\n" +
                      "INNER JOIN\n" +
                      "	CUSTOMER AS C\n" +
-                     "		ON C.CustomerID = V.OwnerID" +
+                     "		ON C.CustomerID = V.OwnerID\n" +
                      "WHERE V.LicencePlate LIKE '%" + search + "%';";
         
         //run statement        
@@ -421,7 +462,7 @@ public class VSMSModel
         //SQL statement
         //String sql = "INSERT INTO SERVICE (" + serv.getVehicleID() + "," + serv.getDescription() + "," + serv.getServiceDate() + "," + serv.getPrice() + 
                      //") values (?,?,?,?)"; //need to include auto inc for serviceID******************
-        String sql = "INSERT  INTO SERVICE (VEHICLEID, DESCRIPTION, SERVICEDATE, PRICE) VALUES (?,?,?,?,?)"; //auto in for serviceID AS ABOVE^^^
+        String sql = "INSERT  INTO SERVICE (VEHICLEID, DESCRIPTION, SERVICEDATE, PRICE) VALUES (?,?,?,?)"; //auto in for serviceID AS ABOVE^^^
         
         //run statement
         try {
@@ -471,9 +512,48 @@ public class VSMSModel
     }
     
     
-    public static Service getServiceFromDB(int ServiceID)
+    public static Service getServiceFromDB(int serviceID)
     {
         Service serv = new Service();
+        
+         //SQL statement
+        String sql =    "SELECT\n" +
+                        "    S.ServiceID,\n" +
+                        "    S.ServiceDate,\n" +
+                        "    S.VehicleID,\n" +
+                        "    V.LicencePlate,\n" +
+                        "    S.Description,\n" +
+                        "    S.Price\n" +
+                        "FROM\n" +
+                        "	SERVICE AS S\n" +
+                        "INNER JOIN\n" +
+                        "	VEHICLE AS V\n" +
+                        "		ON V.VehicleID = S.VehicleID\n" +
+                        "WHERE RecordStatus = 1\n" +
+                        "AND S.ServiceID = " + serviceID + ";";
+        
+        //run statement        
+        try {
+            Statement st = estDatabaseConnection().createStatement();
+            ResultSet rs = st.executeQuery(sql);
+            
+            //loop through database results
+            while(rs.next()) { 
+
+                serv.setServiceID(rs.getInt("ServiceID"));
+                serv.setServiceDate(rs.getDate("ServiceDate").toLocalDate());
+                serv.setVehicleID(rs.getInt("VehicleID"));
+                serv.setLicencePlate(rs.getString("LicencePlate"));
+                serv.setDescription(rs.getString("Description"));
+                serv.setPrice(rs.getFloat("Price")); //IS THIS THE CORRECT TYPE - SQL DB is decimal
+                             
+            }
+                    
+        }
+        catch (Exception e) {
+            MessageView.displayException(e,"Error occurred getting service from database");
+        }
+                       
                 
         return serv;
     }
@@ -548,7 +628,7 @@ public class VSMSModel
                         "INNER JOIN\n" +
                         "	VEHICLE AS V\n" +
                         "		ON V.VehicleID = S.VehicleID\n" +
-                        "WHERE RecordStatus = 1" +
+                        "WHERE RecordStatus = 1\n" +
                         "AND V.LicencePlate LIKE '%" + search + "%';";
         
         //run statement        
