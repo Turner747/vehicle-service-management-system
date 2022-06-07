@@ -221,33 +221,57 @@ public class VSMSViewController {
     void editCustomerBtnClicked(ActionEvent event) {
         
         // Customer selectedCust = customerTableView.getSelectionModel().getSelectedItem(); // live code
-        Customer selectedCust = new Customer (6,"w","w","w","w","w","w","w"); // testing purposes
+        Customer selectedCust = VSMSModel.getCustomerFromDB(2); // testing purposes
         
         Customer updatedCust = MessageView.displayUpdateCustomerDialog(selectedCust);
         
-        VSMSModel.updateCustomerInDB(updatedCust);
+        if(updatedCust.getCustomerID() != 0)
+            VSMSModel.updateCustomerInDB(updatedCust);
 
     }
 
     @FXML
     void editServiceBtnClicked(ActionEvent event) {
 
+        // Service selectedServ = serviceTableView.getSelectionModel().getSelectedItem(); // live code
+        Service selectedServ = VSMSModel.getServiceFromDB(2); // testing purposes
+        
+        Service updatedServ = MessageView.displayUpdateServiceDialog(selectedServ);
+        
+        if(updatedServ.getServiceID() != 0)
+            VSMSModel.updateServiceInDB(updatedServ);
+        
     }
     
     @FXML
     void cancelServiceBtnClicked(ActionEvent event) {
 
+        // Service selectedServ = serviceTableView.getSelectionModel().getSelectedItem(); // live code
+        Service selectedServ = VSMSModel.getServiceFromDB(2); // testing purposes
+        
+        boolean confirmed = MessageView.displayConfirmDialog(event,
+                "Are you sure you want to cancel this service?");
+        
+        if(confirmed)
+        {
+            selectedServ.setRecordStatus(0);
+
+            VSMSModel.updateServiceInDB(selectedServ);
+        }
+        
+        
     }
 
     @FXML
     void editVehicleBtnClicked(ActionEvent event) {
 
         //Vehicle selectedVeh = vehicleTableView.getSelectionModel().getSelectedItem(); // live code
-        Vehicle selectedVeh = new Vehicle(8,4,"er","er","er", "er",20);
+        Vehicle selectedVeh = VSMSModel.getVehicleFromDB(4); //testing purposes
         
         Vehicle updatedVeh = MessageView.displayUpdateVehicleDialog(selectedVeh);
         
-        VSMSModel.updateVehicleInDB(updatedVeh);
+        if(updatedVeh.getVehicleID() != 0)
+            VSMSModel.updateVehicleInDB(updatedVeh);
         
     }
 
