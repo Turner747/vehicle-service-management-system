@@ -67,6 +67,7 @@
                            </GridPane.margin>
                         </Button>
                         <Button fx:id="addCustomerBtn" mnemonicParsing="false" onAction="#addCustomerBtnClicked" prefWidth="75.0" text="Add" />
+                        <Button fx:id="refreshCustomerBtn" mnemonicParsing="false" onAction="#refreshCustomerBtnClicked" prefWidth="75.0" text="Refresh" GridPane.columnIndex="3" GridPane.halignment="RIGHT" />
                      </children>
                      <padding>
                         <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
@@ -109,6 +110,7 @@
                               <Insets left="10.0" />
                            </GridPane.margin></Button>
                         <TextField fx:id="searchVehicleTxtField" GridPane.columnIndex="2" />
+                        <Button fx:id="refreshVehicleBtn" mnemonicParsing="false" onAction="#refreshVehicleBtnClicked" prefWidth="75.0" text="Refresh" GridPane.columnIndex="3" GridPane.halignment="RIGHT" />
                      </children>
                      <padding>
                         <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
@@ -129,7 +131,7 @@
                       <RowConstraints maxHeight="696.0" minHeight="453.0" prefHeight="696.0" vgrow="SOMETIMES" />
                     </rowConstraints>
                      <children>
-                        <TableView prefHeight="200.0" prefWidth="200.0" GridPane.columnSpan="4" GridPane.rowIndex="1">
+                        <TableView fx:id="serviceTableView" prefHeight="200.0" prefWidth="200.0" GridPane.columnSpan="4" GridPane.rowIndex="1">
                           <columns>
                             <TableColumn fx:id="serviceIdCol" prefWidth="77.0" resizable="false" text="Service ID" />
                             <TableColumn fx:id="serviceDateCol" prefWidth="156.0" resizable="false" text="Service Date" />
@@ -154,6 +156,7 @@
                               <Insets left="10.0" />
                            </GridPane.margin>
                         </Button>
+                        <Button fx:id="refreshServiceBtn" mnemonicParsing="false" onAction="#refreshServiceBtnClicked" prefWidth="75.0" text="Refresh" GridPane.columnIndex="3" GridPane.halignment="RIGHT" />
                      </children>
                      <padding>
                         <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
