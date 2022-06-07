@@ -3,6 +3,7 @@ package view;
 import java.awt.event.MouseEvent;
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.time.LocalDate;
 import java.util.Optional;
 import javafx.application.Platform;
 import javafx.collections.ObservableList;
@@ -976,10 +977,10 @@ public class MessageView
             // attempt to create object
             try{
                 // instantiate temporary object
-                serv = new Service(serviceVeh.getVehicleID(),
-                        descriptionTextArea.getText(),
-                        serviceDatePicker.getValue(),
-                        Float.parseFloat(priceTextField.getText()));
+                serv.setVehicleID(serviceVeh.getVehicleID());
+                serv.setDescription(descriptionTextArea.getText());
+                serv.setServiceDate(serviceDatePicker.getValue());
+                serv.setPrice(Float.parseFloat(priceTextField.getText()));
 
             } // if incorrect data type has been entered an exception will be thrown
             catch(Exception e)
