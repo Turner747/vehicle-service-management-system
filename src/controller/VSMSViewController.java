@@ -245,34 +245,37 @@ public class VSMSViewController {
     }
     
     @FXML
-    void aboutBtnClicked(ActionEvent event) {
+    void aboutBtnClicked(ActionEvent event) 
+    {
         MessageView.displayAboutDialog();
     }
 
     @FXML
-    void addCustomerBtnClicked(ActionEvent event) {
-        
+    void addCustomerBtnClicked(ActionEvent event) 
+    {
+        //display dialog for customer entry
         Customer newCust = MessageView.displayNewCustomerDialog();
         
+        // if returned customer id = 0, do nothing 
         if(newCust.getCustomerID() != 0)
             VSMSModel.addCustomerToDB(newCust);
         
         refreshCustomerTable();
-        
     }
     
     @FXML
-    void refreshCustomerBtnClicked(ActionEvent event) {
-        
+    void refreshCustomerBtnClicked(ActionEvent event) 
+    {
         refreshCustomerTable();
-        
     }
 
     @FXML
-    void addServiceBtnClicked(ActionEvent event) {
-
+    void addServiceBtnClicked(ActionEvent event) 
+    {
+        //display dialog for service entry
         Service newServ = MessageView.displayNewServiceDialog();
         
+        //is service id = 0, do nothing
         if(newServ.getServiceID() != 0)
             VSMSModel.addServiceToDB(newServ);
         
@@ -280,16 +283,18 @@ public class VSMSViewController {
     }
     
     @FXML
-    void refreshServiceBtnClicked(ActionEvent event) {
-
+    void refreshServiceBtnClicked(ActionEvent event) 
+    {
         refreshServiceTable();
     }
 
     @FXML
-    void addVehicleBtnClicked(ActionEvent event) {
-
+    void addVehicleBtnClicked(ActionEvent event) 
+    {
+        //display dialog for vehicle entry
         Vehicle newVeh = MessageView.displayNewVehicleDialog();
         
+        //if returned vehicle id = 0, do nothing
         if(newVeh.getVehicleID() != 0)
             VSMSModel.addVehicleToDB(newVeh);
         
@@ -297,75 +302,77 @@ public class VSMSViewController {
     }
 
     @FXML
-    void editCustomerBtnClicked(ActionEvent event) {
+    void editCustomerBtnClicked(ActionEvent event) 
+    {
+        // get select customer from table
+        Customer selectedCust = customerTableView.getSelectionModel().getSelectedItem();
         
-        Customer selectedCust = customerTableView.getSelectionModel().getSelectedItem(); // live code
-        //Customer selectedCust = VSMSModel.getCustomerFromDB(2); // testing purposes
-        
+        // display dialog to update customer
         Customer updatedCust = MessageView.displayUpdateCustomerDialog(selectedCust);
         
+        //if returned customer id = 0, do nothing
         if(updatedCust.getCustomerID() != 0)
             VSMSModel.updateCustomerInDB(updatedCust);
         
         refreshCustomerTable();
-
     }
 
     @FXML
-    void editServiceBtnClicked(ActionEvent event) {
-
-        Service selectedServ = serviceTableView.getSelectionModel().getSelectedItem(); // live code
-        //Service selectedServ = VSMSModel.getServiceFromDB(1); // testing purposes
+    void editServiceBtnClicked(ActionEvent event)
+    {
+        // get selected service from the table
+        Service selectedServ = serviceTableView.getSelectionModel().getSelectedItem();
         
+        // display dialog to edit the service
         Service updatedServ = MessageView.displayUpdateServiceDialog(selectedServ);
         
+        // if the returned service id = 0, do nothing
         if(updatedServ.getServiceID() != 0)
             VSMSModel.updateServiceInDB(updatedServ);
         
         refreshServiceTable();
-        
     }
     
     @FXML
-    void cancelServiceBtnClicked(ActionEvent event) {
-
-        Service selectedServ = serviceTableView.getSelectionModel().getSelectedItem(); // live code
-        //Service selectedServ = VSMSModel.getServiceFromDB(2); // testing purposes
+    void cancelServiceBtnClicked(ActionEvent event) 
+    {
+        // get the selected service from the table
+        Service selectedServ = serviceTableView.getSelectionModel().getSelectedItem();
         
+        // display dialog to confirm user wants to cancel service
         boolean confirmed = MessageView.displayConfirmDialog(event,
                 "Are you sure you want to cancel this service?");
         
         if(confirmed)
-        {
-            selectedServ.setRecordStatus(0);
+        {//if the cancellation is confirmed
+            selectedServ.setRecordStatus(0); // change record status to 0
 
-            VSMSModel.updateServiceInDB(selectedServ);
+            VSMSModel.updateServiceInDB(selectedServ); // update service in database
         }
         
         refreshServiceTable();
     }
 
     @FXML
-    void editVehicleBtnClicked(ActionEvent event) {
-
-        Vehicle selectedVeh = vehicleTableView.getSelectionModel().getSelectedItem(); // live code
-        //Vehicle selectedVeh = VSMSModel.getVehicleFromDB(4); //testing purposes
+    void editVehicleBtnClicked(ActionEvent event) 
+    {
+        // get selected vehicle from the table
+        Vehicle selectedVeh = vehicleTableView.getSelectionModel().getSelectedItem(); 
         
+        // display dialog to update vehicle
         Vehicle updatedVeh = MessageView.displayUpdateVehicleDialog(selectedVeh);
         
+        //if returned vehicle has id of 0, do nothing
         if(updatedVeh.getVehicleID() != 0)
             VSMSModel.updateVehicleInDB(updatedVeh);
         
         refreshVehicleTable();
-        
     }
     
     @FXML
     void refreshVehicleBtnClicked(ActionEvent event) 
     {
-
         refreshVehicleTable();
-        
     }
 
     @FXML
@@ -374,56 +381,57 @@ public class VSMSViewController {
     }
 
     @FXML
-    void searchCustomerBtnClicked(ActionEvent event) {
-        try{
-            ObservableList<Customer> customerList = 
-                VSMSModel.getCustomerListFromDB(searchCustomerTxtField.getText());      // search database with string from search field
+    void searchCustomerBtnClicked(ActionEvent event) 
+    {
+        try{ 
+            ObservableList<Customer> customerList = // search database with string from search field
+                VSMSModel.getCustomerListFromDB(searchCustomerTxtField.getText());      
 
 
-            if(customerList.isEmpty())
-               customerTableView.setPlaceholder(new Label("No customers found"));       // if the return list is empty display message in table
+            if(customerList.isEmpty()) // if the return list is empty display message in table
+               customerTableView.setPlaceholder(new Label("No customers found"));       
                 
             customerTableView.setItems(customerList);   // update table with search results
             
 
-        }catch(Exception e){
-            MessageView.displayException(e, "Error loading search results");        // display is error occurs when searchihg database
+        }catch(Exception e){// display is error occurs when searchihg database
+            MessageView.displayException(e, "Error loading search results");        
         }
     }
 
     @FXML
     void searchServiceBtnClicked(ActionEvent event) {
         try{
-            ObservableList<Service> serviceList = 
-                VSMSModel.getServiceListFromDB(searchServiceTxtField.getText());      // search database with string from search field
+            ObservableList<Service> serviceList = // search database with string from search field
+                VSMSModel.getServiceListFromDB(searchServiceTxtField.getText());      
 
 
-            if(serviceList.isEmpty())
-               serviceTableView.setPlaceholder(new Label("No services found"));       // if the return list is empty display message in table
+            if(serviceList.isEmpty()) // if the return list is empty display message in table
+               serviceTableView.setPlaceholder(new Label("No services found"));       
                 
             serviceTableView.setItems(serviceList);   // update table with search results
             
 
-        }catch(Exception e){
-            MessageView.displayException(e, "Error loading search results");        // display is error occurs when searchihg database
+        }catch(Exception e){ // display is error occurs when searchihg database
+            MessageView.displayException(e, "Error loading search results");        
         }
     }
 
     @FXML
     void searchVehicleBtnClicked(ActionEvent event) {
         try{
-            ObservableList<Vehicle> vehicleList = 
-                VSMSModel.getVehicleListFromDB(searchVehicleTxtField.getText());      // search database with string from search field
+            ObservableList<Vehicle> vehicleList = // search database with string from search field
+                VSMSModel.getVehicleListFromDB(searchVehicleTxtField.getText());      
 
 
-            if(vehicleList.isEmpty())
-               vehicleTableView.setPlaceholder(new Label("No vehicles found"));       // if the return list is empty display message in table
+            if(vehicleList.isEmpty()) // if the return list is empty display message in table
+               vehicleTableView.setPlaceholder(new Label("No vehicles found"));       
                 
             vehicleTableView.setItems(vehicleList);   // update table with search results
             
 
-        }catch(Exception e){
-            MessageView.displayException(e, "Error loading search results");        // display is error occurs when searchihg database
+        }catch(Exception e){ // display is error occurs when searchihg database
+            MessageView.displayException(e, "Error loading search results");        
         }
     }
 
