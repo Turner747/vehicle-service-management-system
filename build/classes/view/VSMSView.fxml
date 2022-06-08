@@ -186,13 +186,13 @@
                             <CategoryAxis label="Makes" side="BOTTOM" />
                           </xAxis>
                           <yAxis>
-                            <NumberAxis label="Quantity" side="LEFT" />
+                            <NumberAxis label="Number of Services" side="LEFT" />
                           </yAxis>
                            <GridPane.margin>
                               <Insets />
                            </GridPane.margin>
                         </BarChart>
-                        <Label text="Top 3 Brands by Make" GridPane.columnIndex="2">
+                        <Label text="Top 3 Makes by Service" GridPane.columnIndex="2">
                            <font>
                               <Font name="System Bold" size="18.0" />
                            </font>
