@@ -28,7 +28,7 @@ public class VSMSModel
     private static final String DATABASE = "CarServiceDB";
     private static final String USER = "root";
     private static final String PSWRD = "password";
-    private static final String HOST = "localhost:3306";
+    private static final String HOST = "localhost";
     private static final String DRIVER = "com.mysql.cj.jdbc.Driver";
     
     // database connection
@@ -730,7 +730,7 @@ public class VSMSModel
         ArrayList<MakeStatTableItem> list = new ArrayList<>();   
         ArrayList<String> listReport = new ArrayList();
         //SQL statement
-        String sql = "SELECT V.MAKE, COUNT(V.MAKE) as SERVICES FROM SERVICE AS S, VEHICLE AS V WHERE S.VEHICLEID = V.VEHICLEID GROUP BY V.MAKE GROUP BY V.MAKE ORDER BY COUNT(V.MAKE) DESC LIMIT 3";
+        String sql = "SELECT V.MAKE, COUNT(V.MAKE) as SERVICES FROM SERVICE AS S, VEHICLE AS V WHERE S.VEHICLEID = V.VEHICLEID GROUP BY V.MAKE ORDER BY COUNT(V.MAKE) DESC LIMIT 3";
         
         try {
             Statement st = estDatabaseConnection().createStatement();
@@ -745,22 +745,9 @@ public class VSMSModel
             }
 
         }
-        
-        /*try {
-            Statement st = estDatabaseConnection().createStatement();
-            ResultSet rs = st.executeQuery(sql);
-
-            //loop through database results
-            while(rs.next()) { 
-
-                listReport.add(rs.getString("MAKE"));
-                listReport.add(rs.getString("SERVICES"));
-            }
-
-        }*/
-        
+                
         catch (Exception e) {
-            MessageView.displayError("Error FOR TOP 3 MAKE");
+            MessageView.displayError("Error occurred while displaying top 3 makes by number of servives");
         }
         
         ObservableList<MakeStatTableItem> makeStats = FXCollections.observableArrayList(list);
