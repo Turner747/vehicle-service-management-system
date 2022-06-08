@@ -26,19 +26,9 @@ import view.MessageView;
 public class VSMSModel
 {
     private static final String DATABASE = "CarServiceDB";
-<<<<<<< HEAD
     private static final String USER = "root";
     private static final String PSWRD = "password";
-<<<<<<< HEAD
-    private static final String HOST = "localhost:3306";
-=======
-    private static final String USER = "joshua";
-    private static final String PSWRD = "Heisenberg-747";
-    private static final String HOST = "172.105.191.27";
->>>>>>> josh-changes
-=======
     private static final String HOST = "localhost";
->>>>>>> 09b08269182109cb7afb71778b28ee708e45a5ca
     private static final String DRIVER = "com.mysql.cj.jdbc.Driver";
     
     // database connection
