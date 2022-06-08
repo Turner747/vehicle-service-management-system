@@ -28,7 +28,7 @@ public class VSMSModel
     private static final String DATABASE = "CarServiceDB";
     private static final String USER = "root";
     private static final String PSWRD = "password";
-    private static final String HOST = "localhost";
+    private static final String HOST = "localhost:3306";
     private static final String DRIVER = "com.mysql.cj.jdbc.Driver";
     
     // database connection
@@ -201,8 +201,10 @@ public class VSMSModel
         
         //SQL statement
         String sql = "SELECT * FROM CUSTOMER WHERE FIRSTNAME LIKE '%" + search + 
-                                            "%' OR LASTNAME LIKE '%" + search + 
-                                            "%' OR PHONE LIKE '%" + search + "%';";
+                                            "%' OR LASTNAME LIKE '%" + search +
+                                            "%' OR CONCAT(FIRSTNAME, ' ', LASTNAME) LIKE '%" + search +
+                                            "%' OR PHONE LIKE '" + search + 
+                                            "' OR REPLACE(PHONE, ' ', '') LIKE '" + search + "';";
         
         //run statement        
         try {
