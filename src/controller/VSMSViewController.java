@@ -185,7 +185,7 @@ public class VSMSViewController {
     private TextField avgStatTxtField;
     
     @FXML
-    private BarChart<String, Integer> brandBarChart;
+    private BarChart<String, Number> brandBarChart;
     
     @FXML
     private TableView<MakeStatTableItem> serviceMakeStatTable;
@@ -231,10 +231,8 @@ public class VSMSViewController {
         makeStatCol.setCellValueFactory(new PropertyValueFactory<>("make"));
         serviceStatCol.setCellValueFactory(new PropertyValueFactory<>("nbrOfServices"));
         
-        // construct report stat barchart        
-        CategoryAxis xAxis = new CategoryAxis();
-        NumberAxis yAxis = new NumberAxis();
-        brandBarChart = new BarChart(xAxis, yAxis);
+        // construct report stat bar chart        
+        brandBarChart.setLegendVisible(false);
                 
         // load table data
         refreshCustomerTable();
@@ -447,17 +445,18 @@ public class VSMSViewController {
         serviceMakeStatTable.setItems(statList);
         
         // top 3 brands by make statistics
-       
-        ObservableList<MakeStatTableItem> statChart = VSMSModel.serviceReportTopMakes();
-        XYChart.Series<String,Integer> sr = new XYChart.Series<>();
+        ObservableList<MakeStatTableItem> statChart = VSMSModel.serviceReportTopMakes(); // get make stats for bar chart from database
         
-        /*for (int i=1; i <= statChart.size(); ++i) {        
-        sr.getData().add(new XYChart.Data<String, Number>(statChart.get(i).getMake(), statChart.get(i).getNbrOfServices()));
-        }*/
-                
-        //sr.getData().add(new XYChart.Data(statChart.get(0).getMake(),statChart.get(0).getNbrOfServices()));
-        sr.getData().add(new XYChart.Data("Toyota",80));// test data
-        brandBarChart.getData().add(sr);
+        XYChart.Series sr = new XYChart.Series();
+        
+        int max = 3;
+        
+        for (int i=0; i < max; i++) {        
+        
+        sr.getData().add(new XYChart.Data(statChart.get(i).getMake(),statChart.get(i).getNbrOfServices()));
+        
+        }
+        brandBarChart.getData().addAll(sr);
         
     }
     
