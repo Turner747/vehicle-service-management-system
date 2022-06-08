@@ -12,11 +12,17 @@ package controller;
  * COIT12200
  */
 
+import java.util.ArrayList;
 import java.util.Date;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.chart.BarChart;
+import javafx.scene.chart.CategoryAxis;
+import javafx.scene.chart.NumberAxis;
+import javafx.scene.chart.XYChart;
+import javafx.scene.chart.XYChart.Data;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
@@ -179,7 +185,7 @@ public class VSMSViewController {
     private TextField avgStatTxtField;
     
     @FXML
-    private BarChart<String, Number> brandBarChart;
+    private BarChart<String, Integer> brandBarChart;
     
     @FXML
     private TableView<MakeStatTableItem> serviceMakeStatTable;
@@ -221,10 +227,20 @@ public class VSMSViewController {
         descriptionCol.setCellValueFactory(new PropertyValueFactory<>("description"));
         priceCol.setCellValueFactory(new PropertyValueFactory<>("price"));
         
+        // construct report stat table view
+        makeStatCol.setCellValueFactory(new PropertyValueFactory<>("make"));
+        serviceStatCol.setCellValueFactory(new PropertyValueFactory<>("nbrOfServices"));
+        
+        // construct report stat barchart        
+        CategoryAxis xAxis = new CategoryAxis();
+        NumberAxis yAxis = new NumberAxis();
+        brandBarChart = new BarChart(xAxis, yAxis);
+                
         // load table data
         refreshCustomerTable();
         refreshVehicleTable();
         refreshServiceTable();
+        refreshReportsTab();
                 
     }
     
@@ -411,7 +427,29 @@ public class VSMSViewController {
         }
     }
 
-    private static void refreshReportsTab(){
+    private void refreshReportsTab(){
+        
+        // service prices statistics
+        minStatTxtField.setText(VSMSModel.serviceReportStats().get(0).toString());
+        maxStatTxtField.setText(VSMSModel.serviceReportStats().get(1).toString());
+        avgStatTxtField.setText(VSMSModel.serviceReportStats().get(2).toString());
+        
+        // number of services by make statistics
+        ObservableList<MakeStatTableItem> statList = VSMSModel.serviceReportByMake(); // get make stats for table from database
+        serviceMakeStatTable.setItems(statList);
+        
+        // top 3 brands by make statistics
+       
+        ObservableList<MakeStatTableItem> statChart = VSMSModel.serviceReportTopMakes();
+        XYChart.Series<String,Integer> sr = new XYChart.Series<>();
+        
+        /*for (int i=1; i <= statChart.size(); ++i) {        
+        sr.getData().add(new XYChart.Data<String, Number>(statChart.get(i).getMake(), statChart.get(i).getNbrOfServices()));
+        }*/
+                
+        //sr.getData().add(new XYChart.Data(statChart.get(0).getMake(),statChart.get(0).getNbrOfServices()));
+        sr.getData().add(new XYChart.Data("Toyota",80));// test data
+        brandBarChart.getData().add(sr);
         
     }
     
@@ -459,7 +497,5 @@ public class VSMSViewController {
             MessageView.displayException(e, "Error loading services table"); // show error message
         }
     }
-    
-    
     
 }

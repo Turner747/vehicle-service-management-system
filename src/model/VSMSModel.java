@@ -28,7 +28,7 @@ public class VSMSModel
     private static final String DATABASE = "CarServiceDB";
     private static final String USER = "root";
     private static final String PSWRD = "password";
-    private static final String HOST = "localhost";
+    private static final String HOST = "localhost:3306";
     private static final String DRIVER = "com.mysql.cj.jdbc.Driver";
     
     // database connection
@@ -65,7 +65,6 @@ public class VSMSModel
         try {
             
                 Connection conn = estDatabaseConnection();
-               
                 PreparedStatement ps = conn.prepareStatement(sql);
                         
                 ps.setString(1,cust.getFirstName());
@@ -79,7 +78,7 @@ public class VSMSModel
                 ps.executeUpdate();
                 MessageView.displayInfoMessage("Customer added");
                 
-                conn.close();
+                //conn.close();
         }
         
         catch (Exception e) {
@@ -97,8 +96,10 @@ public class VSMSModel
         
         //run statement
         try {
-            
-            PreparedStatement ps = estDatabaseConnection().prepareStatement(sql);
+               
+                //Connection conn = estDatabaseConnection();
+                //PreparedStatement ps = conn.prepareStatement(sql);
+                PreparedStatement ps = estDatabaseConnection().prepareStatement(sql);
                 
                 ps.setString(1,cust.getFirstName());
                 ps.setString(2, cust.getLastName());
@@ -662,84 +663,108 @@ public class VSMSModel
         return services;
     }
     
-    public static void serviceReportStats()
+    //Get data for service prices
+    public static ArrayList<Integer> serviceReportStats()
     {
-                
+        ArrayList<Integer> listReport = new ArrayList();       
         //SQL statement
         String sql = "SELECT MIN(PRICE), MAX(PRICE), AVG(PRICE) FROM SERVICE";
         
         try {
-                    Statement st = estDatabaseConnection().createStatement();
-                    ResultSet rs = st.executeQuery(sql);
+            Statement st = estDatabaseConnection().createStatement();
+            ResultSet rs = st.executeQuery(sql);
 
-                    //loop through database results
-                    while(rs.next()) { 
-                       
-                        rs.getInt("MIN(PRICE)");
-                        rs.getInt("MAX(PRICE)");
-                        rs.getInt("AVG(PRICE)");
-                        
-                    }
+                //loop through database results
+            while(rs.next()) { 
 
-                }
+                listReport.add( rs.getInt("MIN(PRICE)"));
+                listReport.add(rs.getInt("MAX(PRICE)"));
+                listReport.add(rs.getInt("AVG(PRICE)"));
+                                        
+            }
+                
+        }
         
         catch (Exception e) {
-            MessageView.displayError("Error for min/max/avg stat");
+            MessageView.displayException(e,"Error occurred while displaying service prices");
         }
-                
+        
+        return listReport;        
     }
     
-    public static void serviceReportByMake()
+    //Get data for service numbers by make
+    public static ObservableList<MakeStatTableItem> serviceReportByMake()
     {
-                
+        ArrayList<MakeStatTableItem> list = new ArrayList<>();        
         //SQL statement
-        String sql = "SELECT V.MAKE, COUNT(V.MAKE) FROM SERVICE AS S, VEHICLE AS V WHERE S.VEHICLEID = V.VEHICLEID GROUP BY V.MAKE";
+        String sql = "SELECT V.MAKE, COUNT(V.MAKE)AS SERVICES FROM SERVICE AS S, VEHICLE AS V WHERE S.VEHICLEID = V.VEHICLEID GROUP BY V.MAKE";
         
         try {
-                    Statement st = estDatabaseConnection().createStatement();
-                    ResultSet rs = st.executeQuery(sql);
+            
+                           
+            Statement st = estDatabaseConnection().createStatement();
+            ResultSet rs = st.executeQuery(sql);
 
-                    //loop through database results
-                    while(rs.next()) { 
-                       
-                        rs.getInt("MAKE");
-                        rs.getInt("COUNT(MAKE)");
-                        
-                    }
+            //loop through database results
+            while(rs.next()) { 
 
-                }
+                list.add(new MakeStatTableItem (
+                        rs.getString("MAKE"),
+                        rs.getInt("SERVICES")));
+            }
+                  
+        }
         
         catch (Exception e) {
-            MessageView.displayError("Error SERVICE NUMBERS BY MAKE");
+            MessageView.displayError("Error occurred while displaying service report for number of services by make ");
         }
-                
+        
+        ObservableList<MakeStatTableItem> makeStats = FXCollections.observableArrayList(list);
+        return makeStats;   
     }
     
-    public static void serviceReportTopMakes()
+    //Get data for top 3 makes by services
+    public static ObservableList<MakeStatTableItem> serviceReportTopMakes()
     {
-                
+        //ObservableList<MakeStatTableItem>
+        ArrayList<MakeStatTableItem> list = new ArrayList<>();   
+        ArrayList<String> listReport = new ArrayList();
         //SQL statement
-        String sql = "SELECT V.MAKE, COUNT(V.MAKE) FROM SERVICE AS S, VEHICLE AS V WHERE S.VEHICLEID = V.VEHICLEID GROUP BY V.MAKE GROUP BY V.MAKE ORDER BY COUNT(V.MAKE) DESC LIMIT 3";
+        String sql = "SELECT V.MAKE, COUNT(V.MAKE) as SERVICES FROM SERVICE AS S, VEHICLE AS V WHERE S.VEHICLEID = V.VEHICLEID GROUP BY V.MAKE GROUP BY V.MAKE ORDER BY COUNT(V.MAKE) DESC LIMIT 3";
         
         try {
-                    Statement st = estDatabaseConnection().createStatement();
-                    ResultSet rs = st.executeQuery(sql);
+            Statement st = estDatabaseConnection().createStatement();
+            ResultSet rs = st.executeQuery(sql);
 
-                    //loop through database results
-                    while(rs.next()) { 
-                       
-                        rs.getInt("MAKE");
-                        rs.getInt("COUNT(MAKE)");
-                        
-                    }
+            //loop through database results
+            while(rs.next()) { 
 
-                }
+                list.add(new MakeStatTableItem (
+                        rs.getString("MAKE"),
+                        rs.getInt("SERVICES")));
+            }
+
+        }
+        
+        /*try {
+            Statement st = estDatabaseConnection().createStatement();
+            ResultSet rs = st.executeQuery(sql);
+
+            //loop through database results
+            while(rs.next()) { 
+
+                listReport.add(rs.getString("MAKE"));
+                listReport.add(rs.getString("SERVICES"));
+            }
+
+        }*/
         
         catch (Exception e) {
             MessageView.displayError("Error FOR TOP 3 MAKE");
         }
-                
+        
+        ObservableList<MakeStatTableItem> makeStats = FXCollections.observableArrayList(list);
+        return makeStats;        
     }
-    
     
 }

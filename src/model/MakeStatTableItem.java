@@ -15,7 +15,7 @@ public class MakeStatTableItem
 {
     private String make;
     private int nbrOfServices;
-
+         
     public MakeStatTableItem(String make, int nbrOfServices)
     {
         this.make = make;
