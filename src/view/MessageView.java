@@ -1,18 +1,14 @@
 package view;
 
-import java.awt.event.MouseEvent;
 import java.io.PrintWriter;
 import java.io.StringWriter;
-import java.time.LocalDate;
 import java.util.Optional;
 import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
-import javafx.event.EventType;
 import javafx.geometry.Insets;
-import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonBar.ButtonData;
@@ -28,8 +24,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
-import javafx.stage.Stage;
-import javafx.stage.WindowEvent;
 import model.Customer;
 import model.Service;
 import model.VSMSModel;
@@ -62,7 +56,10 @@ public class MessageView
     private static TextField vehicleTextField; // display owner name
     private static TableView<Vehicle> vehicleTableView; // used for display owner in owner selection
     
-    
+    /**
+     * Display basic message
+     * @param message content to be displayed
+     */
     public static void displayInfoMessage(String message)
     {
         Alert a = new Alert(Alert.AlertType.INFORMATION);
@@ -72,70 +69,92 @@ public class MessageView
         a.show();
     }
     
-    public static boolean displayConfirmDialog(Event e, String prompt){
+    /**
+     * Display a confirm dialog
+     * @param e event that prompts the confirmation
+     * @param prompt message to be displayed
+     * @return true if confirmed
+     */
+    public static boolean displayConfirmDialog(Event e, String prompt)
+    {
         boolean confirmed = false;
         
+        // build dialog
         Alert a = new Alert(Alert.AlertType.CONFIRMATION, 
                     "Confirmation", 
                     ButtonType.YES,
                     ButtonType.NO);
         a.setTitle(WINDOW_TITLE);
         a.setContentText(prompt);
-        
         ButtonType yesButton = new ButtonType("Yes");
-        
         a.getButtonTypes().setAll(yesButton, ButtonType.CANCEL);
         
+        // display the message
         Optional<ButtonType> confirm = a.showAndWait();
-        if (confirm.isPresent() && confirm.get() == yesButton){
+        if (confirm.isPresent() && confirm.get() == yesButton)
+        { // yes clicked
             
             confirmed = true;
         }
-        else {
+        else 
+        {  // cancel clicked
             e.consume();
         }
         
         return confirmed;
     }
     
-    
-    public static void displayExitDialog(Event e){
+    /**
+     * Display confirmation to close the program
+     * @param e 
+     */
+    public static void displayExitDialog(Event e)
+    {
+        // build the dialog
         Alert a = new Alert(Alert.AlertType.CONFIRMATION, 
                     "Are you sure you want to quit?", 
                     ButtonType.YES,
                     ButtonType.NO);
         a.setTitle(WINDOW_TITLE);
         a.setContentText("Are you sure you want to quit the application?");
-        
         ButtonType closeAllButton = new ButtonType("Quit application");
-        
         a.getButtonTypes().setAll(closeAllButton, ButtonType.CANCEL);
         
+        // display the dialog and wait for response
         Optional<ButtonType> confirm = a.showAndWait();
-        if (confirm.isPresent() && confirm.get() == closeAllButton){
-            
+        if (confirm.isPresent() && confirm.get() == closeAllButton)
+        {   // quit application clicked
             System.exit(0);
         }
-        else {
+        else 
+        {   // cancel clicked
             e.consume();
         }
         
     }
 
-    
-    public static void displayError(String message){
+    /**
+     * Display basic error message
+     * @param message to be displayed
+     */
+    public static void displayError(String message)
+    {
+        // build dialog
         Alert a = new Alert(Alert.AlertType.ERROR, message);
-        
         a.setTitle(WINDOW_TITLE);
         a.setHeaderText("Error");
+        
+        // display dialog
         a.show();
     }
 
+    /**
+     * Display exception dialog with stack trace information
+     * @param throwable exception thrown
+     * @param message to be displayed
+     */
     public static void displayException(Throwable throwable, String message) 
     {
-        // print the stack trace to the console
-        //throwable.printStackTrace();
-
         // create aleart window and set titles
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle(WINDOW_TITLE);
@@ -170,16 +189,21 @@ public class MessageView
         // add the above gridpane to the alert window
         alert.getDialogPane().setExpandableContent(expContent);
 
-        // display the alert
+        // display and wait for response
         alert.showAndWait();
     }
     
     // customer windows
 
+    /**
+     * Display dialog for entering new customer details
+     * @return created customer object
+     */
     public static Customer displayNewCustomerDialog()
     {
-        Customer cust = null;
+        Customer cust = null; // declare customer variable
         
+        // build dialog
         Dialog dialog = new Dialog<>();     // new dialog pane
         
         dialog.setTitle(WINDOW_TITLE + " - Add Customer");      // add title
@@ -218,7 +242,6 @@ public class MessageView
         
         TextField phoneTextField = new TextField();
         phoneTextField.setPromptText("Enter phone number");
-        
         
         
         // add labels and textfields to the gridpane
@@ -275,15 +298,15 @@ public class MessageView
             //event.consume();
         });
         
-        // Request focus on the date field by default.
+        // Request focus on the name field by default.
         Platform.runLater(() -> firstNameTextField.requestFocus());
         
-        // display the dialog and wait for a button to be pressed
+        // display the dialog and wait response
         Optional<ButtonType> result = dialog.showAndWait();
         
-        // if the add button is pressed
+        
         if(result.isPresent() && result.get() == addInputButton)
-        {
+        {   // if the add button is clicked
             // attempt to create object
             try{
                 // instantiate temporary object
@@ -298,23 +321,23 @@ public class MessageView
             } // if incorrect data type has been entered an exception will be thrown
             catch(Exception ex)
             {
-                // create error message
-                String message = "Add customer error";
-
                 // display the exception error window
-                displayException(ex, message);
+                displayException(ex,"Error creating customer object");
             }
-            
         }
         else 
-        {
-            cust = new Customer();
+        {   //if cancel button is clicked
+            cust = new Customer(); // create customer with id of 0
         }
         
         return cust;
     }
 
-    
+    /**
+     * Display dialog to update a customer
+     * @param cust is the customer to be updated
+     * @return the updated customer
+     */
     public static Customer displayUpdateCustomerDialog(Customer cust)
     {
         Dialog dialog = new Dialog<>();     // new dialog pane
@@ -357,7 +380,6 @@ public class MessageView
         phoneTextField.setText(cust.getPhoneNo());
         
         
-        
         // add labels and textfields to the gridpane
         grid.add(new Label("First name"), 0, 0);
         grid.add(firstNameTextField, 1, 0);
@@ -412,18 +434,17 @@ public class MessageView
             //event.consume();
         });
         
-        // Request focus on the date field by default.
+        // Request focus on the first name field field by default.
         Platform.runLater(() -> firstNameTextField.requestFocus());
         
         // display the dialog and wait for a button to be pressed
         Optional<ButtonType> result = dialog.showAndWait();
         
-        // if the add button is pressed
+        
         if(result.isPresent() && result.get() == addInputButton)
-        {
+        {// if the add button is pressed
             // attempt to create object
             try{
-                // instantiate temporary object
                 cust.setFirstName(firstNameTextField.getText());
                 cust.setLastName(lastNameTextField.getText());
                 cust.setAddress(addressTextField.getText());
@@ -433,28 +454,28 @@ public class MessageView
                 cust.setPhoneNo(phoneTextField.getText());
 
             } // if incorrect data type has been entered an exception will be thrown
-            catch(Exception e)
-            {
-                // create error message
-                String message = "update customer error";
-
+            catch(Exception e){
                 // display the exception error window
-                displayException(e, message);
+                displayException(e, "Error occurred while updating customer object");
             }
         }
         else 
-        {
-            cust = new Customer();
+        {// if cancel button is pressed
+            cust = new Customer(); // overwrite customer with new customer with id of O
         }
         return cust;
     }
     
     
-   // vehicle windows
+    // vehicle windows
     
+    /**
+     * Display dialog for entering new vehicle
+     * @return the created vehicle object
+     */
     public static Vehicle displayNewVehicleDialog()
     {
-        Vehicle veh = null;
+        Vehicle veh = null; // vehicle object declaration
         
         Dialog dialog = new Dialog<>();     // new dialog pane
         
@@ -475,23 +496,26 @@ public class MessageView
 
         // create the input fields
         
+        // owner selection field
         ownerTextField = new TextField();
         ownerTextField.setDisable(true);
         Button selectOwnerBtn = new Button("Select");
         
+        // event handler for select button
         EventHandler<ActionEvent> selectOwnerBtnClicked = new EventHandler<ActionEvent>(){
             @Override
             public void handle(ActionEvent e)
             {
-                owner = displayOwnerSelectDialog();
+                owner = displayOwnerSelectDialog(); //dislay dialog
                 
-                if(owner.getCustomerID() != 0)
+                //check if returned customer has id of 0, if 0 do nothing
+                if(owner.getCustomerID() != 0) // if not 0 add name to text field
                     ownerTextField.setText(owner.getFirstName() + " " +
                                         owner.getLastName());
             }
         };
         
-        selectOwnerBtn.setOnAction(selectOwnerBtnClicked);
+        selectOwnerBtn.setOnAction(selectOwnerBtnClicked); // add event handler to button
         
         TextField licenceTextField = new TextField();
         licenceTextField.setPromptText("Enter licence plate number");
@@ -559,18 +583,17 @@ public class MessageView
             //event.consume();
         });
         
-        // Request focus on the date field by default.
+        // Request focus on the select button by default.
         Platform.runLater(() -> selectOwnerBtn.requestFocus());
         
         // display the dialog and wait for a button to be pressed
         Optional<ButtonType> result = dialog.showAndWait();
         
-        // if the add button is pressed
+        
         if(result.isPresent() && result.get() == addInputButton)
-        {
+        {// if the add button is clicked
             // attempt to create object
             try{
-                // instantiate temporary object
                 veh = new Vehicle(owner.getCustomerID(),
                         licenceTextField.getText(),
                         makeTextField.getText(),
@@ -581,24 +604,27 @@ public class MessageView
             } // if incorrect data type has been entered an exception will be thrown
             catch(Exception e)
             {
-                // create error message
-                String message = "create vehicle object error";
-
                 // display the exception error window
-                displayException(e, message);
+                displayException(e, "Error occurred while creating vehile object");
             }
         }
         else
-        {
-            veh = new Vehicle();
+        {// if cancel button is clicked
+            veh = new Vehicle(); // create vehicle with id of 0
         }
         
-        owner = null;
+        owner = null; //reset global object
         return veh;
     }
     
+    /**
+     * display dialog to update vehicle details
+     * @param veh vehicle to be updated
+     * @return the updated vehicle object
+     */
     public static Vehicle displayUpdateVehicleDialog(Vehicle veh)
     {
+        // get the customer object using the owner id
         owner = VSMSModel.getCustomerFromDB(veh.getOwnerID());
         
         Dialog dialog = new Dialog<>();     // new dialog pane
@@ -626,6 +652,7 @@ public class MessageView
         ownerTextField.setText(owner.getFirstName() + " " +
                                     owner.getLastName());
         
+        // event handler for select button
         EventHandler<ActionEvent> selectOwnerBtnClicked = new EventHandler<ActionEvent>(){
             @Override
             public void handle(ActionEvent e)
@@ -704,18 +731,17 @@ public class MessageView
             //event.consume();
         });
         
-        // Request focus on the date field by default.
+        // Request focus on the select button by default.
         Platform.runLater(() -> selectOwnerBtn.requestFocus());
         
         // display the dialog and wait for a button to be pressed
         Optional<ButtonType> result = dialog.showAndWait();
         
-        // if the add button is pressed
+        
         if(result.isPresent() && result.get() == addInputButton)
-        {
+        {// if the add button is clicked
             // attempt to create object
             try{
-                // instantiate temporary object
                 veh.setOwnerID(owner.getCustomerID());
                 veh.setLicencePlate(licenceTextField.getText());
                 veh.setMake(makeTextField.getText());
@@ -726,27 +752,28 @@ public class MessageView
             } // if incorrect data type has been entered an exception will be thrown
             catch(Exception e)
             {
-                // create error message
-                String message = "update vehicle object error";
-
                 // display the exception error window
-                displayException(e, message);
+                displayException(e, "Error occuring while update vehicle object");
             }
         }
         else
-        {
-            veh = new Vehicle();
+        {// if cancel button is clicked
+            veh = new Vehicle(); // overwrite to vehilcle with id of 0
         }
         
-        owner = null;
+        owner = null; // reset global owner object
         return veh;
     }
     
     // service windows
     
+    /**
+     * display dialog for entering new service
+     * @return create service object
+     */
     public static Service displayNewServiceDialog()
     {
-        Service serv = null;
+        Service serv = null;    // declare service object
         
         Dialog dialog = new Dialog<>();     // new dialog pane
         
@@ -771,12 +798,14 @@ public class MessageView
         vehicleTextField.setDisable(true);
         Button selectVehicleBtn = new Button("Select");
         
+        // event handler for select button
         EventHandler<ActionEvent> selectVehicleBtnClicked = new EventHandler<ActionEvent>(){
             @Override
             public void handle(ActionEvent e)
             {
                 serviceVeh = displayVehicleSelectDialog();
                 
+                //check if the returned vehicle has an id of 0
                 if(serviceVeh.getVehicleID() != 0)
                     vehicleTextField.setText(serviceVeh.getLicencePlate() + ", " +
                                         serviceVeh.getMake() + " " + serviceVeh.getModel());
@@ -841,12 +870,11 @@ public class MessageView
         // display the dialog and wait for a button to be pressed
         Optional<ButtonType> result = dialog.showAndWait();
         
-        // if the add button is pressed
+        
         if(result.isPresent() && result.get() == addInputButton)
-        {
+        {// if the add button is pressed
             // attempt to create object
             try{
-                // instantiate temporary object
                 serv = new Service(serviceVeh.getVehicleID(),
                         descriptionTextArea.getText(),
                         serviceDatePicker.getValue(),
@@ -855,22 +883,24 @@ public class MessageView
             } // if incorrect data type has been entered an exception will be thrown
             catch(Exception e)
             {
-                // create error message
-                String message = "create service object error";
-
                 // display the exception error window
-                displayException(e, message);
+                displayException(e, "Error while creating service object");
             }
         }
         else
-        {
-            serv = new Service();
+        {// if the cancel button is clicked
+            serv = new Service(); //create object with id of 0
         }
         
         serviceVeh = null;
         return serv;
     }
     
+    /**
+     * display dialog to update service
+     * @param serv service to be updated
+     * @return updated service object
+     */
     public static Service displayUpdateServiceDialog(Service serv)
     {
         serviceVeh = VSMSModel.getVehicleFromDB(serv.getVehicleID());
@@ -907,6 +937,7 @@ public class MessageView
             {
                 serviceVeh = displayVehicleSelectDialog();
                 
+                // check if id is 0, if so, do nothing
                 if(serviceVeh.getVehicleID() != 0)
                     vehicleTextField.setText(serviceVeh.getLicencePlate() + ", " +
                                         serviceVeh.getMake() + " " + serviceVeh.getModel());
@@ -971,12 +1002,11 @@ public class MessageView
         // display the dialog and wait for a button to be pressed
         Optional<ButtonType> result = dialog.showAndWait();
         
-        // if the add button is pressed
+        
         if(result.isPresent() && result.get() == addInputButton)
-        {
-            // attempt to create object
+        {// if the add button is clicked
+            // attempt to update service object
             try{
-                // instantiate temporary object
                 serv.setVehicleID(serviceVeh.getVehicleID());
                 serv.setDescription(descriptionTextArea.getText());
                 serv.setServiceDate(serviceDatePicker.getValue());
@@ -993,8 +1023,8 @@ public class MessageView
             }
         }
         else
-        {
-            serv = new Service();
+        {// if cancel button clicked
+            serv = new Service(); // overwrite with service with id of 0
         }
         
         serviceVeh = null;
@@ -1003,7 +1033,7 @@ public class MessageView
     }
     
     /**
-     * Display about window
+     * Display about window containing app and developer details
      */
     public static void displayAboutDialog()
     {
@@ -1040,6 +1070,10 @@ public class MessageView
         a.show();
     }
     
+    /**
+     * display owner select dialog, used by add/edit vehicle dialogs
+     * @return selected owner
+     */
     private static Customer displayOwnerSelectDialog()
     {
         
@@ -1075,7 +1109,7 @@ public class MessageView
                 
                 ObservableList<Customer> results = VSMSModel.getCustomerListFromDB(search);
                 
-                if(results.size() < 1)
+                if(results.isEmpty()) // if no results are found display message
                     ownerTableView.setPlaceholder(
                             new Label("No customers found for " + search));
                 
@@ -1085,7 +1119,7 @@ public class MessageView
         
         searchBtn.setOnAction(searchBtnClicked);
         
-        
+        // create table view
         ownerTableView = new TableView();
         TableColumn<Customer, Integer> customerIdCol = new TableColumn<>("ID");
         TableColumn<Customer, String> firstNameCol = new TableColumn<>("First Name");
@@ -1100,8 +1134,7 @@ public class MessageView
         ownerTableView.getColumns().add(firstNameCol);
         ownerTableView.getColumns().add(lastNameCol);
         ownerTableView.getColumns().add(phoneCol);
-        
-        
+                
         customerIdCol.setCellValueFactory(new PropertyValueFactory<>("customerID"));
         firstNameCol.setCellValueFactory(new PropertyValueFactory<>("firstName"));
         lastNameCol.setCellValueFactory(new PropertyValueFactory<>("lastName"));
@@ -1109,7 +1142,7 @@ public class MessageView
         
         ownerTableView.setPlaceholder(new Label("Search for a customer to link vehicle to."));
         
-        // add labels and textfields to the gridpane
+        // add fields to the gridpane
         grid.add(searchTextField, 0, 0, 2, 1);
         grid.add(searchBtn, 2, 0);
         
@@ -1125,9 +1158,7 @@ public class MessageView
         // validate inputs
         add.addEventFilter(ActionEvent.ACTION, event -> 
         {
-            //if(ownerTableView.getSelectionModel().getSelectedItem() == null)
-            //    displayError("Please select an Owner");
-                
+             
             //event.consume();
         });
         
@@ -1139,18 +1170,22 @@ public class MessageView
         
         // if the add button is pressed
         if(result.isPresent() && result.get() == addInputButton)
-        {
+        {//if select button is clicked
             selectedOwner = ownerTableView.getSelectionModel().getSelectedItem();
         }
         else
-        {
-            selectedOwner = new Customer();
+        {//if cancel button is clicked
+            selectedOwner = new Customer(); //create customer with id of 0
         }
         
         return selectedOwner;
         
     }
     
+    /**
+     * display vehicle select dialog, used by add/edit service dialog
+     * @return 
+     */
     private static Vehicle displayVehicleSelectDialog()
     {
         
@@ -1186,7 +1221,7 @@ public class MessageView
                 
                 ObservableList<Vehicle> results = VSMSModel.getVehicleListFromDB(search);
                 
-                if(results.size() < 1)
+                if(results.isEmpty())//is not results are returned display message
                     vehicleTableView.setPlaceholder(
                             new Label("No vehicles found with licence plate " + search));
                 
@@ -1196,7 +1231,7 @@ public class MessageView
         
         searchBtn.setOnAction(searchBtnClicked);
         
-        
+        //create vehicle table
         vehicleTableView = new TableView();
         
         TableColumn<Vehicle, Integer> vehicleIdCol = new TableColumn<>("ID");
@@ -1236,9 +1271,7 @@ public class MessageView
         // validate inputs
         add.addEventFilter(ActionEvent.ACTION, event -> 
         {
-            //if(ownerTableView.getSelectionModel().getSelectedItem() == null)
-            //    displayError("Please select an Owner");
-                
+              
             //event.consume();
         });
         
@@ -1250,12 +1283,12 @@ public class MessageView
         
         // if the add button is pressed
         if(result.isPresent() && result.get() == addInputButton)
-        {
+        {//if select button is clicked
             selectedVeh = vehicleTableView.getSelectionModel().getSelectedItem();
         }
         else
-        {
-            selectedVeh = new Vehicle();
+        {//if cancel button is clicked
+            selectedVeh = new Vehicle(); //create vehicle with id of 0
         }
         
         return selectedVeh;
