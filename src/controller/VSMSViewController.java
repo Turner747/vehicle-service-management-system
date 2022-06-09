@@ -185,7 +185,7 @@ public class VSMSViewController {
     private TextField avgStatTxtField;
     
     @FXML
-    private BarChart<String, Number> brandBarChart;
+    private BarChart<String, Integer> brandBarChart;
     
     @FXML
     private TableView<MakeStatTableItem> serviceMakeStatTable;
