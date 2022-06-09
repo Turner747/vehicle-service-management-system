@@ -243,12 +243,23 @@ public class VSMSViewController {
                 
     }
     
+    // common button actions
+    
     @FXML
     void aboutBtnClicked(ActionEvent event) 
     {
         MessageView.displayAboutDialog();
     }
 
+    @FXML
+    void quitBtnClicked(ActionEvent event) 
+    {
+        MessageView.displayExitDialog(event);
+    }
+    
+    
+    // customer tab button actions
+    
     @FXML
     void addCustomerBtnClicked(ActionEvent event) 
     {
@@ -263,122 +274,26 @@ public class VSMSViewController {
     }
     
     @FXML
-    void refreshCustomerBtnClicked(ActionEvent event) 
-    {
-        refreshCustomerTable();
-    }
-
-    @FXML
-    void addServiceBtnClicked(ActionEvent event) 
-    {
-        //display dialog for service entry
-        Service newServ = MessageView.displayNewServiceDialog();
-        
-        //is service id = 0, do nothing
-        if(newServ.getServiceID() != 0)
-            VSMSModel.addServiceToDB(newServ);
-        
-        refreshServiceTable();
-    }
-    
-    @FXML
-    void refreshServiceBtnClicked(ActionEvent event) 
-    {
-        refreshServiceTable();
-    }
-
-    @FXML
-    void addVehicleBtnClicked(ActionEvent event) 
-    {
-        //display dialog for vehicle entry
-        Vehicle newVeh = MessageView.displayNewVehicleDialog();
-        
-        //if returned vehicle id = 0, do nothing
-        if(newVeh.getVehicleID() != 0)
-            VSMSModel.addVehicleToDB(newVeh);
-        
-        refreshVehicleTable();
-    }
-
-    @FXML
     void editCustomerBtnClicked(ActionEvent event) 
     {
-        // get select customer from table
-        Customer selectedCust = customerTableView.getSelectionModel().getSelectedItem();
-        
-        // display dialog to update customer
-        Customer updatedCust = MessageView.displayUpdateCustomerDialog(selectedCust);
-        
-        //if returned customer id = 0, do nothing
-        if(updatedCust.getCustomerID() != 0)
-            VSMSModel.updateCustomerInDB(updatedCust);
+        try{
+            // get select customer from table
+            Customer selectedCust = customerTableView.getSelectionModel().getSelectedItem();
+            
+            // display dialog to update customer
+            Customer updatedCust = MessageView.displayUpdateCustomerDialog(selectedCust);
+
+            //if returned customer id = 0, do nothing
+            if(updatedCust.getCustomerID() != 0)
+                VSMSModel.updateCustomerInDB(updatedCust);
+            
+        }catch(Exception e){
+            MessageView.displayError("Please select a customer to edit");
+        }
         
         refreshCustomerTable();
     }
-
-    @FXML
-    void editServiceBtnClicked(ActionEvent event)
-    {
-        // get selected service from the table
-        Service selectedServ = serviceTableView.getSelectionModel().getSelectedItem();
-        
-        // display dialog to edit the service
-        Service updatedServ = MessageView.displayUpdateServiceDialog(selectedServ);
-        
-        // if the returned service id = 0, do nothing
-        if(updatedServ.getServiceID() != 0)
-            VSMSModel.updateServiceInDB(updatedServ);
-        
-        refreshServiceTable();
-    }
     
-    @FXML
-    void cancelServiceBtnClicked(ActionEvent event) 
-    {
-        // get the selected service from the table
-        Service selectedServ = serviceTableView.getSelectionModel().getSelectedItem();
-        
-        // display dialog to confirm user wants to cancel service
-        boolean confirmed = MessageView.displayConfirmDialog(event,
-                "Are you sure you want to cancel this service?");
-        
-        if(confirmed)
-        {//if the cancellation is confirmed
-            selectedServ.setRecordStatus(0); // change record status to 0
-
-            VSMSModel.updateServiceInDB(selectedServ); // update service in database
-        }
-        
-        refreshServiceTable();
-    }
-
-    @FXML
-    void editVehicleBtnClicked(ActionEvent event) 
-    {
-        // get selected vehicle from the table
-        Vehicle selectedVeh = vehicleTableView.getSelectionModel().getSelectedItem(); 
-        
-        // display dialog to update vehicle
-        Vehicle updatedVeh = MessageView.displayUpdateVehicleDialog(selectedVeh);
-        
-        //if returned vehicle has id of 0, do nothing
-        if(updatedVeh.getVehicleID() != 0)
-            VSMSModel.updateVehicleInDB(updatedVeh);
-        
-        refreshVehicleTable();
-    }
-    
-    @FXML
-    void refreshVehicleBtnClicked(ActionEvent event) 
-    {
-        refreshVehicleTable();
-    }
-
-    @FXML
-    void quitBtnClicked(ActionEvent event) {
-        MessageView.displayExitDialog(event);
-    }
-
     @FXML
     void searchCustomerBtnClicked(ActionEvent event) 
     {
@@ -397,9 +312,77 @@ public class VSMSViewController {
             MessageView.displayException(e, "Error loading search results");        
         }
     }
-
+    
     @FXML
-    void searchServiceBtnClicked(ActionEvent event) {
+    void refreshCustomerBtnClicked(ActionEvent event) 
+    {
+        refreshCustomerTable();
+    }
+
+    
+    // service tab button actions
+    
+    @FXML
+    void addServiceBtnClicked(ActionEvent event) 
+    {
+        //display dialog for service entry
+        Service newServ = MessageView.displayNewServiceDialog();
+        
+        //is service id = 0, do nothing
+        if(newServ.getServiceID() != 0)
+            VSMSModel.addServiceToDB(newServ);
+        
+        refreshServiceTable();
+    }
+    
+    @FXML
+    void editServiceBtnClicked(ActionEvent event)
+    {
+        try{
+            // get selected service from the table
+            Service selectedServ = serviceTableView.getSelectionModel().getSelectedItem();
+            
+            // display dialog to edit the service
+            Service updatedServ = MessageView.displayUpdateServiceDialog(selectedServ);
+
+            // if the returned service id = 0, do nothing
+            if(updatedServ.getServiceID() != 0)
+                VSMSModel.updateServiceInDB(updatedServ);
+            
+        }catch(Exception e){
+            MessageView.displayError("Please select a service to edit");
+        }
+        
+        refreshServiceTable();
+    }
+    
+    @FXML
+    void cancelServiceBtnClicked(ActionEvent event) 
+    {
+        try{
+            // get the selected service from the table
+            Service selectedServ = serviceTableView.getSelectionModel().getSelectedItem();
+
+            // display dialog to confirm user wants to cancel service
+            boolean confirmed = MessageView.displayConfirmDialog(event,
+                    "Are you sure you want to cancel this service?");
+
+            if(confirmed)
+            {//if the cancellation is confirmed
+                selectedServ.setRecordStatus(0); // change record status to 0
+
+                VSMSModel.updateServiceInDB(selectedServ); // update service in database
+            }
+        }catch(Exception e){
+            MessageView.displayError("Please select the service you would like to cancel");
+        }
+        
+        refreshServiceTable();
+    }
+    
+    @FXML
+    void searchServiceBtnClicked(ActionEvent event) 
+    {
         try{
             ObservableList<Service> serviceList = // search database with string from search field
                 VSMSModel.getServiceListFromDB(searchServiceTxtField.getText());      
@@ -415,7 +398,54 @@ public class VSMSViewController {
             MessageView.displayException(e, "Error loading search results");        
         }
     }
+    
+    @FXML
+    void refreshServiceBtnClicked(ActionEvent event) 
+    {
+        refreshServiceTable();
+    }
 
+    
+    //vehicle tab button actions
+    
+    @FXML
+    void addVehicleBtnClicked(ActionEvent event) 
+    {
+        //display dialog for vehicle entry
+        Vehicle newVeh = MessageView.displayNewVehicleDialog();
+        
+        //if returned vehicle id = 0, do nothing
+        if(newVeh.getVehicleID() != 0)
+            VSMSModel.addVehicleToDB(newVeh);
+        
+        refreshVehicleTable();
+    }
+
+    @FXML
+    void editVehicleBtnClicked(ActionEvent event) 
+    {
+        try{
+            // get selected vehicle from the table
+            Vehicle selectedVeh = vehicleTableView.getSelectionModel().getSelectedItem(); 
+            
+            // display dialog to update vehicle
+            Vehicle updatedVeh = MessageView.displayUpdateVehicleDialog(selectedVeh);
+            
+            //if returned vehicle has id of 0, do nothing
+            if(updatedVeh.getVehicleID() != 0)
+                VSMSModel.updateVehicleInDB(updatedVeh);
+            
+            
+        }catch(Exception e){
+            MessageView.displayError("Please select a vehicle to edit");
+        }
+        
+        
+        
+        
+        refreshVehicleTable();
+    }
+    
     @FXML
     void searchVehicleBtnClicked(ActionEvent event) {
         try{
@@ -433,6 +463,15 @@ public class VSMSViewController {
             MessageView.displayException(e, "Error loading search results");        
         }
     }
+    
+    @FXML
+    void refreshVehicleBtnClicked(ActionEvent event) 
+    {
+        refreshVehicleTable();
+    }
+    
+
+    // refresh data methods
 
     private void refreshReportsTab(){
         
