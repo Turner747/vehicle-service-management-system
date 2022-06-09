@@ -28,7 +28,7 @@ public class VSMSModel
     private static final String DATABASE = "CarServiceDB";
     private static final String USER = "root";
     private static final String PSWRD = "password";
-    private static final String HOST = "localhost:3306";
+    private static final String HOST = "localhost";
     private static final String DRIVER = "com.mysql.cj.jdbc.Driver";
     
     // database connection
@@ -49,16 +49,13 @@ public class VSMSModel
 
         return conn;
     }
-    
-    
+        
     // customer methods
     
-    //Add new customer to database
+    // add new customer to database
     public static void addCustomerToDB(Customer cust)
     {
         //SQL statement
-        //String sql = "INSERT INTO CUSTOMER (" + cust.getFirstName() + "," + cust.getLastName() + "," + cust.getAddress() + "," + cust.getSuburb() + 
-                    // "," + cust.getState() + "," + cust.getPostcode() + "," + cust.getPhoneNo() + ") values (?,?,?,?,?,?,?)";
         String sql = "INSERT INTO CUSTOMER (FIRSTNAME, LASTNAME, ADDRESS, SUBURB, STATE, POSTCODE, PHONE) values (?,?,?,?,?,?,?)";
         
         //run statement        
@@ -86,19 +83,15 @@ public class VSMSModel
         }
     }
     
-    //Edit customer and update in database
+    // edit customer and update in database
     public static void updateCustomerInDB(Customer cust)
     {
         //SQL statement
-        //String sql = "UPDATE CUSTOMER SET FIRSTNAME=" + cust.getFirstName() + ", LASTNAME=" + cust.getLastName() + ", ADDRESS=" + cust.getAddress() + ", SUBURB=" + cust.getSuburb() + 
-                    // ", STATE=" + cust.getState() + ", POSTCODE=" + cust.getPostcode() + ", PHONE=" + cust.getPhoneNo() + "WHERE CUSTOMERID=" + cust.getCustomerID();
         String sql = "UPDATE CUSTOMER SET FIRSTNAME=?, LASTNAME=?, ADDRESS=?, SUBURB=?, STATE=?, POSTCODE=?, PHONE=? WHERE CUSTOMERID=?";
         
         //run statement
         try {
                
-                //Connection conn = estDatabaseConnection();
-                //PreparedStatement ps = conn.prepareStatement(sql);
                 PreparedStatement ps = estDatabaseConnection().prepareStatement(sql);
                 
                 ps.setString(1,cust.getFirstName());
@@ -155,7 +148,7 @@ public class VSMSModel
         return cust;
     }
     
-    //Get all customer details from database
+    // get all customer details from database
     public static ObservableList<Customer> getCustomerListFromDB()
     {
         ArrayList<Customer> list = new ArrayList<>();
@@ -194,7 +187,7 @@ public class VSMSModel
         return customers;
     }
     
-    //Search for a customer in database by name or phone
+    // search for a customer in database by name or phone
     public static ObservableList<Customer> getCustomerListFromDB(String search)
     {
         ArrayList<Customer> list = new ArrayList<>();
@@ -242,13 +235,11 @@ public class VSMSModel
     
     // vehicle methods
     
-    //Add vehicle to database
+    // add vehicle to database
     public static void addVehicleToDB(Vehicle veh)
     {
-        //SQL statement
-        //String sql = "INSERT INTO VEHICLE (" + veh.getOwnerID() + "," + veh.getMake() + "," + veh.getModel() + "," + veh.getYear() + 
-                    // "," + veh.getOdometer() + ") values (?,?,?,?,?)";//need to include auto inc for vehicleID - possibly removing auto inc*****************
-        String sql = "INSERT  INTO VEHICLE (OWNERID, MAKE, MODEL, YEAR, ODOMETER, LICENCEPLATE) VALUES (?,?,?,?,?,?)"; //INCLUDE VEHICLEID AS ABOVE^^^
+        //SQL statement         
+        String sql = "INSERT  INTO VEHICLE (OWNERID, MAKE, MODEL, YEAR, ODOMETER, LICENCEPLATE) VALUES (?,?,?,?,?,?)"; 
         
         //run statement
         try {
@@ -274,9 +265,7 @@ public class VSMSModel
     public static void updateVehicleInDB(Vehicle veh)
     {
         //SQL statement
-        //String sql = "UPDATE VEHICLE SET OWNERID=" + veh.getOwnerID() + ", MAKE=" + veh.getMake() + ", MODEL=" + veh.getModel() + ", YEAR=" + veh.getYear() + 
-                     //", ODOMETER=" + veh.getOdometer() + "WHERE VEHICLEID=" + veh.getVehicleID();
-        String sql = "UPDATE VEHICLE SET OWNERID=?, MAKE=?, MODEL=?, YEAR=?, ODOMETER=?, LICENCEPLATE=? WHERE VEHICLEID=?"; //INCLUDE VEHICLEID AS ABOVE^^^
+        String sql = "UPDATE VEHICLE SET OWNERID=?, MAKE=?, MODEL=?, YEAR=?, ODOMETER=?, LICENCEPLATE=? WHERE VEHICLEID=?"; 
         
         //run statement
         try {
@@ -403,7 +392,7 @@ public class VSMSModel
         return vehicles;
     }
     
-    //what are we searching for???
+    // search vehicles by name, phone and licence plate
     public static ObservableList<Vehicle> getVehicleListFromDB(String search)
     {
         ArrayList<Vehicle> list = new ArrayList<>();
@@ -423,7 +412,13 @@ public class VSMSModel
                      "INNER JOIN\n" +
                      "	CUSTOMER AS C\n" +
                      "		ON C.CustomerID = V.OwnerID\n" +
-                     "WHERE V.LicencePlate LIKE '%" + search + "%';";
+                     "WHERE V.LicencePlate LIKE '%" + search +
+                     "' OR REPLACE(V.LicencePlate, ' ', '') LIKE '" + search +
+                     "%' OR C.PHONE LIKE '%" + search +
+                     "' OR REPLACE(PHONE, ' ', '') LIKE '" + search +
+                     "%' OR C.FIRSTNAME LIKE '%" + search +
+                     "%' OR C.LASTNAME LIKE '%" + search +
+                     "%' OR CONCAT(C.FIRSTNAME, ' ', C.LASTNAME) LIKE '%" + search + "';";
         
         //run statement        
         try {
@@ -463,8 +458,6 @@ public class VSMSModel
     public static void addServiceToDB(Service serv)
     {
         //SQL statement
-        //String sql = "INSERT INTO SERVICE (" + serv.getVehicleID() + "," + serv.getDescription() + "," + serv.getServiceDate() + "," + serv.getPrice() + 
-                     //") values (?,?,?,?)"; //need to include auto inc for serviceID******************
         String sql = "INSERT  INTO SERVICE (VEHICLEID, DESCRIPTION, SERVICEDATE, PRICE) VALUES (?,?,?,?)"; //auto in for serviceID AS ABOVE^^^
         
         //run statement
@@ -632,7 +625,8 @@ public class VSMSModel
                         "	VEHICLE AS V\n" +
                         "		ON V.VehicleID = S.VehicleID\n" +
                         "WHERE RecordStatus = 1\n" +
-                        "AND V.LicencePlate LIKE '%" + search + "%';";
+                        "AND V.LicencePlate LIKE '%" + search + 
+                        "' OR REPLACE(V.LicencePlate, ' ', '') LIKE '" + search + "';";
         
         //run statement        
         try {
@@ -665,7 +659,7 @@ public class VSMSModel
         return services;
     }
     
-    //Get data for service prices
+    // get data for service prices
     public static ArrayList<Integer> serviceReportStats()
     {
         ArrayList<Integer> listReport = new ArrayList();       
@@ -694,7 +688,7 @@ public class VSMSModel
         return listReport;        
     }
     
-    //Get data for service numbers by make
+    // get data for service numbers by make
     public static ObservableList<MakeStatTableItem> serviceReportByMake()
     {
         ArrayList<MakeStatTableItem> list = new ArrayList<>();        
@@ -725,7 +719,7 @@ public class VSMSModel
         return makeStats;   
     }
     
-    //Get data for top 3 makes by services
+    // get data for top 3 makes by services
     public static ObservableList<MakeStatTableItem> serviceReportTopMakes()
     {
         //ObservableList<MakeStatTableItem>
