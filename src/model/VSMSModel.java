@@ -27,7 +27,7 @@ public class VSMSModel
 {
     private static final String DATABASE = "CarServiceDB";
     private static final String USER = "root";
-    private static final String PSWRD = "password";
+    private static final String PSWRD = "mySQLpassword";
     private static final String HOST = "localhost:3306";
     private static final String DRIVER = "com.mysql.cj.jdbc.Driver";
     

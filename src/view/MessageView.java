@@ -506,12 +506,25 @@ public class MessageView
             @Override
             public void handle(ActionEvent e)
             {
-                owner = displayOwnerSelectDialog(); //dislay dialog
+                Customer selectedOwner = displayOwnerSelectDialog(); //dislay dialog
                 
-                //check if returned customer has id of 0, if 0 do nothing
-                if(owner.getCustomerID() != 0) // if not 0 add name to text field
-                    ownerTextField.setText(owner.getFirstName() + " " +
-                                        owner.getLastName());
+                if(selectedOwner != null)
+                {
+                    if(selectedOwner.getCustomerID() != 0) // if not 0 add name to text field
+                    {
+                        owner = selectedOwner;
+                
+                        //check if returned customer has id of 0, if 0 do nothing
+                    
+                        ownerTextField.setText(owner.getFirstName() + " " +
+                                            owner.getLastName());
+                    }
+                }
+                else
+                {
+                    MessageView.displayError("No owner selected");
+                }
+                
             }
         };
         
@@ -657,9 +670,24 @@ public class MessageView
             @Override
             public void handle(ActionEvent e)
             {
-                owner = displayOwnerSelectDialog();
-                ownerTextField.setText(owner.getFirstName() + " " +
-                                    owner.getLastName());
+                Customer selectedOwner = displayOwnerSelectDialog(); //dislay dialog
+                
+                if(selectedOwner != null)
+                {
+                    if(selectedOwner.getCustomerID() != 0) // if not 0 add name to text field
+                    {
+                        owner = selectedOwner;
+                
+                        //check if returned customer has id of 0, if 0 do nothing
+                    
+                        ownerTextField.setText(owner.getFirstName() + " " +
+                                            owner.getLastName());
+                    }
+                }
+                else
+                {
+                    MessageView.displayError("No owner selected");
+                }
             }
         };
         
@@ -803,12 +831,25 @@ public class MessageView
             @Override
             public void handle(ActionEvent e)
             {
-                serviceVeh = displayVehicleSelectDialog();
+                Vehicle selectedVeh = displayVehicleSelectDialog();
                 
-                //check if the returned vehicle has an id of 0
-                if(serviceVeh.getVehicleID() != 0)
-                    vehicleTextField.setText(serviceVeh.getLicencePlate() + ", " +
+                if(selectedVeh != null)
+                {
+                    if(selectedVeh.getVehicleID() != 0)
+                    {
+                    
+                        serviceVeh = selectedVeh;
+
+                        //check if the returned vehicle has an id of 0
+
+                        vehicleTextField.setText(serviceVeh.getLicencePlate() + ", " +
                                         serviceVeh.getMake() + " " + serviceVeh.getModel());
+                    }
+                }
+                else
+                {
+                    displayError("No vehicle selected");
+                }
             }
         };
         
@@ -935,12 +976,25 @@ public class MessageView
             @Override
             public void handle(ActionEvent e)
             {
-                serviceVeh = displayVehicleSelectDialog();
+                Vehicle selectedVeh = displayVehicleSelectDialog();
                 
-                // check if id is 0, if so, do nothing
-                if(serviceVeh.getVehicleID() != 0)
-                    vehicleTextField.setText(serviceVeh.getLicencePlate() + ", " +
+                if(selectedVeh != null)
+                {
+                    if(selectedVeh.getVehicleID() != 0)
+                    {
+                    
+                        serviceVeh = selectedVeh;
+
+                        //check if the returned vehicle has an id of 0
+
+                        vehicleTextField.setText(serviceVeh.getLicencePlate() + ", " +
                                         serviceVeh.getMake() + " " + serviceVeh.getModel());
+                    }
+                }
+                else
+                {
+                    displayError("No vehicle selected");
+                }
             }
         };
         
@@ -1158,8 +1212,8 @@ public class MessageView
         // validate inputs
         add.addEventFilter(ActionEvent.ACTION, event -> 
         {
-             
-            //event.consume();
+             // enter validation here
+                
         });
         
         // Request focus on the date field by default.
@@ -1171,7 +1225,11 @@ public class MessageView
         // if the add button is pressed
         if(result.isPresent() && result.get() == addInputButton)
         {//if select button is clicked
-            selectedOwner = ownerTableView.getSelectionModel().getSelectedItem();
+            try{
+                selectedOwner = ownerTableView.getSelectionModel().getSelectedItem();
+            }catch(Exception e){
+                displayError("Please select a customer");
+            }
         }
         else
         {//if cancel button is clicked
@@ -1284,7 +1342,12 @@ public class MessageView
         // if the add button is pressed
         if(result.isPresent() && result.get() == addInputButton)
         {//if select button is clicked
-            selectedVeh = vehicleTableView.getSelectionModel().getSelectedItem();
+            
+            try{
+                selectedVeh = vehicleTableView.getSelectionModel().getSelectedItem();
+            }catch(Exception e){
+                displayError("Please select a vehicle");
+            }
         }
         else
         {//if cancel button is clicked
