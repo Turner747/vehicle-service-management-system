@@ -19,10 +19,7 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.chart.BarChart;
-import javafx.scene.chart.CategoryAxis;
-import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
-import javafx.scene.chart.XYChart.Data;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
@@ -120,6 +117,9 @@ public class VSMSViewController {
     
     @FXML
     private TableColumn<Service, Date> serviceDateCol;
+    
+    @FXML
+    private TableColumn<Service, String> ownerServCol;
 
     @FXML
     private TableColumn<Service, String> serviceVehicleCol;
@@ -220,9 +220,10 @@ public class VSMSViewController {
         odometerCol.setCellValueFactory(new PropertyValueFactory<>("odometer"));
         
         
-        // construct vehicle table view
+        // construct service table view
         serviceIdCol.setCellValueFactory(new PropertyValueFactory<>("serviceID"));
         serviceDateCol.setCellValueFactory(new PropertyValueFactory<>("serviceDate"));
+        ownerServCol.setCellValueFactory(new PropertyValueFactory<>("owner"));
         serviceVehicleCol.setCellValueFactory(new PropertyValueFactory<>("licencePlate"));
         descriptionCol.setCellValueFactory(new PropertyValueFactory<>("description"));
         priceCol.setCellValueFactory(new PropertyValueFactory<>("price"));
