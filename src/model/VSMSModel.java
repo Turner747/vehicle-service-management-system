@@ -262,6 +262,7 @@ public class VSMSModel
         }
     }
     
+    // update vehicle to database
     public static void updateVehicleInDB(Vehicle veh)
     {
         //SQL statement
@@ -289,7 +290,7 @@ public class VSMSModel
         }
     }
     
-    //
+    // get vehicle by ID from database
     public static Vehicle getVehicleFromDB(int vehicleID)
     {
         Vehicle veh = new Vehicle();
@@ -338,7 +339,7 @@ public class VSMSModel
         return veh;
     }
     
-    //Get all vehicles from database
+    // get all vehicles from database
     public static ObservableList<Vehicle> getVehicleListFromDB()
     {
         ArrayList<Vehicle> list = new ArrayList<>();
@@ -455,6 +456,7 @@ public class VSMSModel
     
     // service methods
     
+    // add service to database
     public static void addServiceToDB(Service serv)
     {
         //SQL statement
@@ -479,11 +481,10 @@ public class VSMSModel
         }
     }
     
+    // update service in database
     public static void updateServiceInDB(Service serv)
     {
         //SQL statement
-        //String sql = "UPDATE SERVICE SET VEHICLEID=" + serv.getVehicleID() + ", DESCRIPTION=" + serv.getDescription() + ", SERVICEDATE=" + serv.getServiceDate() + ", PRICE=" + serv.getPrice() + 
-                     //"WHERE SERVICEID=" + serv.getServiceID();
         String sql = "UPDATE SERVICE SET VEHICLEID=?, DESCRIPTION=?, SERVICEDATE=?, PRICE=?, RECORDSTATUS=? WHERE SERVICEID=?"; //auto in for serviceID AS ABOVE^^^
         
         //run statement
@@ -507,7 +508,7 @@ public class VSMSModel
         }
     }
     
-    
+    // get service from database by ID
     public static Service getServiceFromDB(int serviceID)
     {
         Service serv = new Service();
@@ -515,7 +516,7 @@ public class VSMSModel
          //SQL statement
         String sql =    "SELECT\n" +
                         "    S.ServiceID,\n" +
-                        "    S.ServiceDate,\n" +
+                        "    S.ServiceDate,\n" +                      
                         "    S.VehicleID,\n" +
                         "    V.LicencePlate,\n" +
                         "    S.Description,\n" +
@@ -554,7 +555,7 @@ public class VSMSModel
         return serv;
     }
     
-    //Get all services from database
+    // get all services from database
     public static ObservableList<Service> getServiceListFromDB()
     {
         ArrayList<Service> list = new ArrayList<>();
@@ -563,15 +564,20 @@ public class VSMSModel
         String sql =    "SELECT\n" +
                         "    S.ServiceID,\n" +
                         "    S.ServiceDate,\n" +
+                        "    V.OwnerID,\n" +
+                        "    CONCAT(C.FirstName, ' ',C.LastName) AS Owner,\n" +
                         "    S.VehicleID,\n" +
                         "    V.LicencePlate,\n" +
                         "    S.Description,\n" +
                         "    S.Price\n" +
                         "FROM\n" +
-                        "	SERVICE AS S\n" +
+                        "	((SERVICE AS S\n" +
                         "INNER JOIN\n" +
                         "	VEHICLE AS V\n" +
-                        "		ON V.VehicleID = S.VehicleID\n" +
+                        "		ON V.VehicleID = S.VehicleID)\n" +
+                         "INNER JOIN\n" +
+                        "	CUSTOMER AS C\n" +
+                        "		ON C.CustomerID = V.OwnerID)\n" +
                         "WHERE RecordStatus = 1;";
         
         //run statement        
@@ -586,6 +592,7 @@ public class VSMSModel
                 
                 service.setServiceID(rs.getInt("ServiceID"));
                 service.setServiceDate(rs.getDate("ServiceDate").toLocalDate());
+                service.setOwner(rs.getString("Owner"));
                 service.setVehicleID(rs.getInt("VehicleID"));
                 service.setLicencePlate(rs.getString("LicencePlate"));
                 service.setDescription(rs.getString("Description"));
@@ -606,7 +613,7 @@ public class VSMSModel
         return services;
     }
    
-    //Search for service by vehicleID - REGO??
+    //Search for service by licence plate
     public static ObservableList<Service> getServiceListFromDB(String search)
     {
         ArrayList<Service> list = new ArrayList<>();

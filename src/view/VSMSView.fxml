@@ -60,7 +60,7 @@
                               <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                            </columnResizePolicy>
                         </TableView>
-                        <TextField fx:id="searchCustomerTxtField" GridPane.columnIndex="2" />
+                        <TextField fx:id="searchCustomerTxtField" promptText="Enter name or phone..." GridPane.columnIndex="2" />
                         <Button fx:id="searchCustomerBtn" mnemonicParsing="false" onAction="#searchCustomerBtnClicked" prefWidth="75.0" text="Search" GridPane.columnIndex="3">
                            <GridPane.margin>
                               <Insets left="10.0" />
@@ -109,7 +109,7 @@
                            <GridPane.margin>
                               <Insets left="10.0" />
                            </GridPane.margin></Button>
-                        <TextField fx:id="searchVehicleTxtField" GridPane.columnIndex="2" />
+                        <TextField fx:id="searchVehicleTxtField" promptText="Enter name, phone or licence plate..." GridPane.columnIndex="2" />
                         <Button fx:id="refreshVehicleBtn" mnemonicParsing="false" onAction="#refreshVehicleBtnClicked" prefWidth="75.0" text="Refresh" GridPane.columnIndex="3" GridPane.halignment="RIGHT" />
                      </children>
                      <padding>
@@ -133,11 +133,12 @@
                      <children>
                         <TableView fx:id="serviceTableView" prefHeight="200.0" prefWidth="200.0" GridPane.columnSpan="4" GridPane.rowIndex="1">
                           <columns>
-                            <TableColumn fx:id="serviceIdCol" prefWidth="77.0" resizable="false" text="Service ID" />
-                            <TableColumn fx:id="serviceDateCol" prefWidth="156.0" resizable="false" text="Service Date" />
-                              <TableColumn fx:id="serviceVehicleCol" prefWidth="133.0" resizable="false" text="Vehicle" />
-                              <TableColumn fx:id="descriptionCol" prefWidth="684.0" resizable="false" text="Description" />
-                              <TableColumn fx:id="priceCol" minWidth="0.0" prefWidth="108.0" resizable="false" text="Price" />
+                            <TableColumn fx:id="serviceIdCol" prefWidth="103.0" resizable="false" text="Service ID" />
+                            <TableColumn fx:id="serviceDateCol" prefWidth="121.0" resizable="false" text="Service Date" />
+                              <TableColumn fx:id="ownerServCol" prefWidth="187.0" resizable="false" text="Owner" />
+                              <TableColumn fx:id="serviceVehicleCol" prefWidth="125.0" resizable="false" text="Vehicle" />
+                              <TableColumn fx:id="descriptionCol" prefWidth="478.0" resizable="false" text="Description" />
+                              <TableColumn fx:id="priceCol" minWidth="0.0" prefWidth="145.0" resizable="false" text="Price" />
                           </columns>
                            <columnResizePolicy>
                               <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
@@ -150,7 +151,7 @@
                               <Insets left="10.0" />
                            </GridPane.margin>
                         </Button>
-                        <TextField fx:id="searchServiceTxtField" GridPane.columnIndex="2" />
+                        <TextField fx:id="searchServiceTxtField" promptText="Enter licence plate..." GridPane.columnIndex="2" />
                         <Button fx:id="cancelServiceBtn" mnemonicParsing="false" onAction="#cancelServiceBtnClicked" prefWidth="75.0" text="Cancel" GridPane.columnIndex="1">
                            <GridPane.margin>
                               <Insets left="10.0" />
