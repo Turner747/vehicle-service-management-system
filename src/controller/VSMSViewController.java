@@ -30,6 +30,7 @@ import view.*;
 public class VSMSViewController {
     
     //common buttons
+    
     @FXML
     private Button aboutBtn;
 
@@ -41,6 +42,7 @@ public class VSMSViewController {
 
     
     //customer tab
+    
     @FXML
     private Button addCustomerBtn;
     
@@ -58,6 +60,7 @@ public class VSMSViewController {
     
     
     // customer table
+    
     @FXML
     private TableView<Customer> customerTableView;
 
@@ -84,9 +87,9 @@ public class VSMSViewController {
     
     @FXML
     private TableColumn<Customer, String> phoneCol;
-    
-    
+        
     //service tab
+    
     @FXML
     private Button addServiceBtn;
     
@@ -104,9 +107,9 @@ public class VSMSViewController {
     
     @FXML
     private Button refreshServiceBtn;
-    
-    
+     
     //service table
+    
     @FXML
     private TableView<Service> serviceTableView;
     
@@ -127,9 +130,9 @@ public class VSMSViewController {
 
     @FXML
     private TableColumn<Service, Float> priceCol;
-
     
     //vehicle tab
+    
      @FXML
     private Button addVehicleBtn;
     
@@ -144,9 +147,9 @@ public class VSMSViewController {
     
     @FXML
     private Button refreshVehicleBtn;
-
     
     //vehicle table
+    
     @FXML
     private TableView<Vehicle> vehicleTableView;
     
@@ -194,7 +197,6 @@ public class VSMSViewController {
     @FXML
     private TableColumn<MakeStatTableItem, Integer> serviceStatCol;
     
-
     @FXML
     void initialize() 
     {
@@ -254,8 +256,7 @@ public class VSMSViewController {
     {
         MessageView.displayExitDialog(event);
     }
-    
-    
+        
     // customer tab button actions
     
     @FXML
@@ -317,7 +318,6 @@ public class VSMSViewController {
         refreshCustomerTable();
     }
 
-    
     // service tab button actions
     
     @FXML
@@ -403,7 +403,6 @@ public class VSMSViewController {
         refreshServiceTable();
     }
 
-    
     //vehicle tab button actions
     
     @FXML
@@ -438,9 +437,6 @@ public class VSMSViewController {
             MessageView.displayError("Please select a vehicle to edit");
         }
         
-        
-        
-        
         refreshVehicleTable();
     }
     
@@ -468,7 +464,6 @@ public class VSMSViewController {
         refreshVehicleTable();
     }
     
-
     // refresh data methods
 
     private void refreshReportsTab(){
