@@ -577,7 +577,8 @@ public class VSMSModel
                          "INNER JOIN\n" +
                         "	CUSTOMER AS C\n" +
                         "		ON C.CustomerID = V.OwnerID)\n" +
-                        "WHERE RecordStatus = 1;";
+                        "WHERE RecordStatus = 1\n" +
+                        "ORDER BY S.Price DESC;";
         
         //run statement        
         try {
@@ -637,7 +638,8 @@ public class VSMSModel
                         "		ON C.CustomerID = V.OwnerID)\n" +
                         "WHERE RecordStatus = 1\n" +
                         "AND V.LicencePlate LIKE '%" + search + 
-                        "' OR REPLACE(V.LicencePlate, ' ', '') LIKE '" + search + "';";
+                        "' OR REPLACE(V.LicencePlate, ' ', '') LIKE '" + search + "'\n" +
+                        "ORDER BY S.Price DESC;";
         
         //run statement        
         try {
@@ -672,9 +674,9 @@ public class VSMSModel
     }
     
     // get data for service prices
-    public static ArrayList<Integer> serviceReportStats()
+    public static ArrayList<Float> serviceReportStats()
     {
-        ArrayList<Integer> listReport = new ArrayList();       
+        ArrayList<Float> listReport = new ArrayList();       
         //SQL statement
         String sql = "SELECT MIN(PRICE), MAX(PRICE), AVG(PRICE) FROM SERVICE WHERE RECORDSTATUS = 1;";
         
@@ -685,9 +687,9 @@ public class VSMSModel
                 //loop through database results
             while(rs.next()) { 
 
-                listReport.add( rs.getInt("MIN(PRICE)"));
-                listReport.add(rs.getInt("MAX(PRICE)"));
-                listReport.add(rs.getInt("AVG(PRICE)"));
+                listReport.add( rs.getFloat("MIN(PRICE)"));
+                listReport.add(rs.getFloat("MAX(PRICE)"));
+                listReport.add(rs.getFloat("AVG(PRICE)"));
                                         
             }
                 

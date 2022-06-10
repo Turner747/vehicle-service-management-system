@@ -12,6 +12,10 @@ package controller;
  * COIT12200
  */
 
+import java.text.NumberFormat;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -20,6 +24,7 @@ import javafx.scene.chart.BarChart;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -117,7 +122,7 @@ public class VSMSViewController {
     private TableColumn<Service, Integer> serviceIdCol;
     
     @FXML
-    private TableColumn<Service, Date> serviceDateCol;
+    private TableColumn<Service, LocalDate> serviceDateCol;
     
     @FXML
     private TableColumn<Service, String> serviceOwnerCol;
@@ -223,10 +228,44 @@ public class VSMSViewController {
         // construct service table view
         serviceIdCol.setCellValueFactory(new PropertyValueFactory<>("serviceID"));
         serviceDateCol.setCellValueFactory(new PropertyValueFactory<>("serviceDate"));
+        serviceDateCol.setCellFactory(column -> {
+                TableCell<Service, LocalDate> cell = new TableCell<Service, LocalDate>() {
+                    private DateTimeFormatter format = DateTimeFormatter.ofPattern("dd / MM / yyyy");
+
+                    @Override
+                    protected void updateItem(LocalDate item, boolean empty) {
+                        super.updateItem(item, empty);
+                        if(empty) {
+                            setText(null);
+                        }
+                        else {
+                            if(item != null)
+                            this.setText(format.format(item));
+                        }
+                    }
+                };
+
+                return cell;
+            });
+        
         serviceOwnerCol.setCellValueFactory(new PropertyValueFactory<>("owner"));
         serviceVehicleCol.setCellValueFactory(new PropertyValueFactory<>("licencePlate"));
         descriptionCol.setCellValueFactory(new PropertyValueFactory<>("description"));
         priceCol.setCellValueFactory(new PropertyValueFactory<>("price"));
+        
+        NumberFormat currencyFormat = NumberFormat.getCurrencyInstance();
+        priceCol.setCellFactory(tc -> new TableCell<Service, Float>() {
+
+            @Override
+            protected void updateItem(Float price, boolean empty) {
+                super.updateItem(price, empty);
+                if (empty) {
+                    setText(null);
+                } else {
+                    setText(currencyFormat.format(price));
+                }
+            }
+        });
         
         // construct report stat table view
         makeStatCol.setCellValueFactory(new PropertyValueFactory<>("make"));
@@ -364,20 +403,25 @@ public class VSMSViewController {
         try{
             // get the selected service from the table
             Service selectedServ = serviceTableView.getSelectionModel().getSelectedItem();
-
+            
+            selectedServ.setRecordStatus(0); // change record status to 0
+            
             // display dialog to confirm user wants to cancel service
             boolean confirmed = MessageView.displayConfirmDialog(event,
                     "Are you sure you want to cancel this service?");
 
             if(confirmed)
             {//if the cancellation is confirmed
-                selectedServ.setRecordStatus(0); // change record status to 0
-
                 VSMSModel.updateServiceInDB(selectedServ); // update service in database
             }
+            
+            
         }catch(Exception e){
             MessageView.displayError("Please select the service you would like to cancel");
         }
+            
+
+            
         
         refreshServiceTable();
         refreshReportsTab();
@@ -475,10 +519,12 @@ public class VSMSViewController {
 
     private void refreshReportsTab(){
         
+        brandBarChart.getData().clear();
+        
         // service prices statistics
-        minStatTxtField.setText(VSMSModel.serviceReportStats().get(0).toString());
-        maxStatTxtField.setText(VSMSModel.serviceReportStats().get(1).toString());
-        avgStatTxtField.setText(VSMSModel.serviceReportStats().get(2).toString());
+        minStatTxtField.setText(String.format("$%.2f",VSMSModel.serviceReportStats().get(0)));
+        maxStatTxtField.setText(String.format("$%.2f",VSMSModel.serviceReportStats().get(1)));
+        avgStatTxtField.setText(String.format("$%.2f",VSMSModel.serviceReportStats().get(2)));
         
         // number of services by make statistics
         ObservableList<MakeStatTableItem> statList = VSMSModel.serviceReportByMake(); // get make stats for table from database

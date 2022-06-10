@@ -589,8 +589,13 @@ public class MessageView
         add.addEventFilter(ActionEvent.ACTION, event -> 
         {
             //add input validation
-
-            //event.consume();
+            try{
+                int odometer = Integer.parseInt(odometerTextField.getText());
+            }catch(Exception e){
+                displayError("Odometer must include numbers only");
+                
+                event.consume();
+            }
         });
         
         // Request focus on the select button by default.
@@ -750,8 +755,13 @@ public class MessageView
         add.addEventFilter(ActionEvent.ACTION, event -> 
         {
             //add input validation
-
-            //event.consume();
+            try{
+                int odometer = Integer.parseInt(odometerTextField.getText());
+            }catch(Exception e){
+                displayError("Odometer must include numbers only");
+                
+                event.consume();
+            }
         });
         
         // Request focus on the select button by default.
@@ -894,8 +904,13 @@ public class MessageView
         add.addEventFilter(ActionEvent.ACTION, event -> 
         {
             //add input validation
-
-            //event.consume();
+            try{
+                float odometer = Float.parseFloat(priceTextField.getText());
+            }catch(Exception e){
+                displayError("Price must include numbers only");
+                
+                event.consume();
+            }
         });
         
         // Request focus on the date field by default.
@@ -1037,8 +1052,13 @@ public class MessageView
         add.addEventFilter(ActionEvent.ACTION, event -> 
         {
             //add input validation
-
-            //event.consume();
+            try{
+                float odometer = Float.parseFloat(priceTextField.getText());
+            }catch(Exception e){
+                displayError("Price must include numbers only");
+                
+                event.consume();
+            }
         });
         
         // Request focus on the date field by default.
