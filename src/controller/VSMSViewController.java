@@ -476,9 +476,9 @@ public class VSMSViewController {
     private void refreshReportsTab(){
         
         // service prices statistics
-        minStatTxtField.setText(VSMSModel.serviceReportStats().get(0).toString());
-        maxStatTxtField.setText(VSMSModel.serviceReportStats().get(1).toString());
-        avgStatTxtField.setText(VSMSModel.serviceReportStats().get(2).toString());
+        minStatTxtField.setText(String.format("$%.2f",VSMSModel.serviceReportStats().get(0)));
+        maxStatTxtField.setText(String.format("$%.2f",VSMSModel.serviceReportStats().get(1)));
+        avgStatTxtField.setText(String.format("$%.2f",VSMSModel.serviceReportStats().get(2)));
         
         // number of services by make statistics
         ObservableList<MakeStatTableItem> statList = VSMSModel.serviceReportByMake(); // get make stats for table from database
