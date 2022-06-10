@@ -54,7 +54,7 @@ public class Customer
         this.phoneNo = phoneNo;
     }
     
-    //set and get methods
+    //get and set methods
     public int getCustomerID()
     {
         return customerID;

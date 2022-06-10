@@ -68,7 +68,7 @@ public class Service
     
     
     
-    //set and get methods
+    //get and set methods
     public int getServiceID()
     {
         return serviceID;

@@ -65,7 +65,7 @@ public class Vehicle
         this.odometer = odometer;
     }
    
-    //set and get methods
+    //get and set methods
     public int getVehicleID()
     {
         return vehicleID;
