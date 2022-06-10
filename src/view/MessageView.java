@@ -54,7 +54,7 @@ public class MessageView
     // required for service creation and updating
     private static Vehicle serviceVeh; // temp object used for selecting over of vehicles
     private static TextField vehicleTextField; // display owner name
-    private static TableView<Vehicle> vehicleTableView; // used for display owner in owner selection
+    private static TableView<Vehicle> vehicleTableView; // used for display vehicle in vehicle selection
     
     /**
      * Display basic message
@@ -867,7 +867,7 @@ public class MessageView
         
         
         // add labels and textfields to the gridpane
-        grid.add(new Label("Owner"), 0, 0);
+        grid.add(new Label("Vehicle"), 0, 0);
         grid.add(vehicleTextField, 1, 0);
         grid.add(selectVehicleBtn, 2, 0);
         
@@ -1012,7 +1012,7 @@ public class MessageView
         
         
         // add labels and textfields to the gridpane
-        grid.add(new Label("Owner"), 0, 0);
+        grid.add(new Label("Vehicle"), 0, 0);
         grid.add(vehicleTextField, 1, 0);
         grid.add(selectVehicleBtn, 2, 0);
         
@@ -1308,7 +1308,7 @@ public class MessageView
         
         vehicleIdCol.setCellValueFactory(new PropertyValueFactory<>("vehicleID"));
         licencePlateCol.setCellValueFactory(new PropertyValueFactory<>("licencePlate"));
-        makeCol.setCellValueFactory(new PropertyValueFactory<>("model"));
+        makeCol.setCellValueFactory(new PropertyValueFactory<>("make"));
         modelCol.setCellValueFactory(new PropertyValueFactory<>("model"));
         
         vehicleTableView.setPlaceholder(new Label("Search for a vehicle"));

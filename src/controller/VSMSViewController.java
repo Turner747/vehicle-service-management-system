@@ -12,9 +12,7 @@ package controller;
  * COIT12200
  */
 
-import java.util.ArrayList;
 import java.util.Date;
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -119,7 +117,7 @@ public class VSMSViewController {
     private TableColumn<Service, Date> serviceDateCol;
     
     @FXML
-    private TableColumn<Service, String> ownerServCol;
+    private TableColumn<Service, String> serviceOwnerCol;
 
     @FXML
     private TableColumn<Service, String> serviceVehicleCol;
@@ -223,7 +221,7 @@ public class VSMSViewController {
         // construct service table view
         serviceIdCol.setCellValueFactory(new PropertyValueFactory<>("serviceID"));
         serviceDateCol.setCellValueFactory(new PropertyValueFactory<>("serviceDate"));
-        ownerServCol.setCellValueFactory(new PropertyValueFactory<>("owner"));
+        serviceOwnerCol.setCellValueFactory(new PropertyValueFactory<>("owner"));
         serviceVehicleCol.setCellValueFactory(new PropertyValueFactory<>("licencePlate"));
         descriptionCol.setCellValueFactory(new PropertyValueFactory<>("description"));
         priceCol.setCellValueFactory(new PropertyValueFactory<>("price"));

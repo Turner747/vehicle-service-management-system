@@ -51,8 +51,7 @@ public class VSMS extends Application
         {
             Logger.getLogger(VSMS.class.getName()).log(Level.SEVERE, null, ex);
         }
-                        
-       
+              
     }
 
     /**

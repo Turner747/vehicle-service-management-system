@@ -135,7 +135,7 @@
                           <columns>
                             <TableColumn fx:id="serviceIdCol" prefWidth="103.0" resizable="false" text="Service ID" />
                             <TableColumn fx:id="serviceDateCol" prefWidth="121.0" resizable="false" text="Service Date" />
-                              <TableColumn fx:id="ownerServCol" prefWidth="187.0" resizable="false" text="Owner" />
+                              <TableColumn fx:id="serviceOwnerCol" prefWidth="187.0" resizable="false" text="Owner" />
                               <TableColumn fx:id="serviceVehicleCol" prefWidth="125.0" resizable="false" text="Vehicle" />
                               <TableColumn fx:id="descriptionCol" prefWidth="478.0" resizable="false" text="Description" />
                               <TableColumn fx:id="priceCol" minWidth="0.0" prefWidth="145.0" resizable="false" text="Price" />

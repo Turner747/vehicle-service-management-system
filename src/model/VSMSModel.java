@@ -112,6 +112,7 @@ public class VSMSModel
         }
     }
     
+    // get customer from database by ID
     public static Customer getCustomerFromDB(int customerId)
     {
         Customer cust = new Customer();
@@ -613,7 +614,7 @@ public class VSMSModel
         return services;
     }
    
-    //Search for service by licence plate
+    // search for service by licence plate
     public static ObservableList<Service> getServiceListFromDB(String search)
     {
         ArrayList<Service> list = new ArrayList<>();
