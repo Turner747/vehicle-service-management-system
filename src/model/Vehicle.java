@@ -66,14 +66,14 @@ public class Vehicle
     }
    
     //set and get methods
-    public void setVehicleID(int vehicleID)
-    {
-        this.vehicleID = vehicleID;
-    }
-    
     public int getVehicleID()
     {
         return vehicleID;
+    }
+
+    public void setVehicleID(int vehicleID)
+    {
+        this.vehicleID = vehicleID;
     }
 
     public int getOwnerID()
@@ -105,45 +105,45 @@ public class Vehicle
     {
         this.licencePlate = licencePlate;
     }
-    
-    public void setMake(String make)
-    {
-        this.make = make;
-    }
-    
+
     public String getMake()
     {
         return make;
     }
-    
-    public void setModel(String model)
+
+    public void setMake(String make)
     {
-        this.model = model;
+        this.make = make;
     }
-    
+
     public String getModel()
     {
         return model;
     }
-    
-    public void setYear(String year)
+
+    public void setModel(String model)
     {
-        this.year = year;
+        this.model = model;
     }
-    
+
     public String getYear()
     {
         return year;
     }
-    
-    public void setOdometer(int odometer)
+
+    public void setYear(String year)
     {
-        this.odometer = odometer;
+        this.year = year;
     }
-    
+
     public int getOdometer()
     {
         return odometer;
+    }
+
+    public void setOdometer(int odometer)
+    {
+        this.odometer = odometer;
     }
     
 }

@@ -55,84 +55,84 @@ public class Customer
     }
     
     //set and get methods
-    public void setCustomerID(int customerID) 
-    {
-        this.customerID = customerID;
-    }
-    
-    public int getCustomerID() 
+    public int getCustomerID()
     {
         return customerID;
     }
-    
-    public void setFirstName(String firstName) 
+
+    public void setCustomerID(int customerID)
     {
-        this.firstName = firstName;
+        this.customerID = customerID;
     }
-    
-    public String getFirstName() 
+
+    public String getFirstName()
     {
         return firstName;
     }
-    
-     public void setLastName(String lastName) 
+
+    public void setFirstName(String firstName)
     {
-        this.lastName = lastName;
+        this.firstName = firstName;
     }
-    
-    public String getLastName() 
+
+    public String getLastName()
     {
         return lastName;
     }
-    
-     public void setAddress(String address) 
+
+    public void setLastName(String lastName)
     {
-        this.address = address;
+        this.lastName = lastName;
     }
-    
-    public String getAddress() 
+
+    public String getAddress()
     {
         return address;
     }
-    
-     public void setSuburb (String suburb) 
+
+    public void setAddress(String address)
     {
-        this.suburb = suburb;
+        this.address = address;
     }
-    
-    public String getSuburb() 
+
+    public String getSuburb()
     {
         return suburb;
     }
-    
-     public void setState(String state) 
+
+    public void setSuburb(String suburb)
     {
-        this.state = state;
+        this.suburb = suburb;
     }
-    
-    public String getState() 
+
+    public String getState()
     {
         return state;
     }
-    
-     public void setPostcode(String postcode) 
+
+    public void setState(String state)
     {
-        this.postcode = postcode;
+        this.state = state;
     }
-    
-    public String getPostcode() 
+
+    public String getPostcode()
     {
         return postcode;
     }
-    
-     public void setPhoneNo(String phoneNo) 
+
+    public void setPostcode(String postcode)
     {
-        this.phoneNo = phoneNo;
+        this.postcode = postcode;
     }
-    
-    public String getPhoneNo() 
+
+    public String getPhoneNo()
     {
         return phoneNo;
+    }
+
+    public void setPhoneNo(String phoneNo)
+    {
+        this.phoneNo = phoneNo;
     }
      
 }
