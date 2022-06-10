@@ -1,4 +1,3 @@
-
 package model;
 
 /*
@@ -112,6 +111,7 @@ public class VSMSModel
         }
     }
     
+    // get customer from database by ID
     public static Customer getCustomerFromDB(int customerId)
     {
         Customer cust = new Customer();
@@ -262,6 +262,7 @@ public class VSMSModel
         }
     }
     
+    // update vehicle to database
     public static void updateVehicleInDB(Vehicle veh)
     {
         //SQL statement
@@ -289,7 +290,7 @@ public class VSMSModel
         }
     }
     
-    //
+    // get vehicle by ID from database
     public static Vehicle getVehicleFromDB(int vehicleID)
     {
         Vehicle veh = new Vehicle();
@@ -338,7 +339,7 @@ public class VSMSModel
         return veh;
     }
     
-    //Get all vehicles from database
+    // get all vehicles from database
     public static ObservableList<Vehicle> getVehicleListFromDB()
     {
         ArrayList<Vehicle> list = new ArrayList<>();
@@ -455,6 +456,7 @@ public class VSMSModel
     
     // service methods
     
+    // add service to database
     public static void addServiceToDB(Service serv)
     {
         //SQL statement
@@ -479,11 +481,10 @@ public class VSMSModel
         }
     }
     
+    // update service in database
     public static void updateServiceInDB(Service serv)
     {
         //SQL statement
-        //String sql = "UPDATE SERVICE SET VEHICLEID=" + serv.getVehicleID() + ", DESCRIPTION=" + serv.getDescription() + ", SERVICEDATE=" + serv.getServiceDate() + ", PRICE=" + serv.getPrice() + 
-                     //"WHERE SERVICEID=" + serv.getServiceID();
         String sql = "UPDATE SERVICE SET VEHICLEID=?, DESCRIPTION=?, SERVICEDATE=?, PRICE=?, RECORDSTATUS=? WHERE SERVICEID=?"; //auto in for serviceID AS ABOVE^^^
         
         //run statement
@@ -507,7 +508,7 @@ public class VSMSModel
         }
     }
     
-    
+    // get service from database by ID
     public static Service getServiceFromDB(int serviceID)
     {
         Service serv = new Service();
@@ -515,7 +516,7 @@ public class VSMSModel
          //SQL statement
         String sql =    "SELECT\n" +
                         "    S.ServiceID,\n" +
-                        "    S.ServiceDate,\n" +
+                        "    S.ServiceDate,\n" +                      
                         "    S.VehicleID,\n" +
                         "    V.LicencePlate,\n" +
                         "    S.Description,\n" +
@@ -549,12 +550,11 @@ public class VSMSModel
         catch (Exception e) {
             MessageView.displayException(e,"Error occurred getting service from database");
         }
-                       
                 
         return serv;
     }
     
-    //Get all services from database
+    // get all services from database
     public static ObservableList<Service> getServiceListFromDB()
     {
         ArrayList<Service> list = new ArrayList<>();
@@ -563,15 +563,20 @@ public class VSMSModel
         String sql =    "SELECT\n" +
                         "    S.ServiceID,\n" +
                         "    S.ServiceDate,\n" +
+                        "    V.OwnerID,\n" +
+                        "    CONCAT(C.FirstName, ' ',C.LastName) AS Owner,\n" +
                         "    S.VehicleID,\n" +
                         "    V.LicencePlate,\n" +
                         "    S.Description,\n" +
                         "    S.Price\n" +
                         "FROM\n" +
-                        "	SERVICE AS S\n" +
+                        "	((SERVICE AS S\n" +
                         "INNER JOIN\n" +
                         "	VEHICLE AS V\n" +
-                        "		ON V.VehicleID = S.VehicleID\n" +
+                        "		ON V.VehicleID = S.VehicleID)\n" +
+                         "INNER JOIN\n" +
+                        "	CUSTOMER AS C\n" +
+                        "		ON C.CustomerID = V.OwnerID)\n" +
                         "WHERE RecordStatus = 1;";
         
         //run statement        
@@ -586,6 +591,7 @@ public class VSMSModel
                 
                 service.setServiceID(rs.getInt("ServiceID"));
                 service.setServiceDate(rs.getDate("ServiceDate").toLocalDate());
+                service.setOwner(rs.getString("Owner"));
                 service.setVehicleID(rs.getInt("VehicleID"));
                 service.setLicencePlate(rs.getString("LicencePlate"));
                 service.setDescription(rs.getString("Description"));
@@ -606,7 +612,7 @@ public class VSMSModel
         return services;
     }
    
-    //Search for service by vehicleID - REGO??
+    // search for service by licence plate
     public static ObservableList<Service> getServiceListFromDB(String search)
     {
         ArrayList<Service> list = new ArrayList<>();
@@ -615,15 +621,20 @@ public class VSMSModel
         String sql =    "SELECT\n" +
                         "    S.ServiceID,\n" +
                         "    S.ServiceDate,\n" +
+                        "    V.OwnerID,\n" +
+                        "    CONCAT(C.FirstName, ' ',C.LastName) AS Owner,\n" +
                         "    S.VehicleID,\n" +
                         "    V.LicencePlate,\n" +
                         "    S.Description,\n" +
                         "    S.Price\n" +
                         "FROM\n" +
-                        "	SERVICE AS S\n" +
+                        "	((SERVICE AS S\n" +
                         "INNER JOIN\n" +
                         "	VEHICLE AS V\n" +
-                        "		ON V.VehicleID = S.VehicleID\n" +
+                        "		ON V.VehicleID = S.VehicleID)\n" +
+                         "INNER JOIN\n" +
+                        "	CUSTOMER AS C\n" +
+                        "		ON C.CustomerID = V.OwnerID)\n" +
                         "WHERE RecordStatus = 1\n" +
                         "AND V.LicencePlate LIKE '%" + search + 
                         "' OR REPLACE(V.LicencePlate, ' ', '') LIKE '" + search + "';";
@@ -640,6 +651,7 @@ public class VSMSModel
                 
                 service.setServiceID(rs.getInt("ServiceID"));
                 service.setServiceDate(rs.getDate("ServiceDate").toLocalDate());
+                service.setOwner(rs.getString("Owner"));
                 service.setVehicleID(rs.getInt("VehicleID"));
                 service.setLicencePlate(rs.getString("LicencePlate"));
                 service.setDescription(rs.getString("Description"));
@@ -664,7 +676,7 @@ public class VSMSModel
     {
         ArrayList<Integer> listReport = new ArrayList();       
         //SQL statement
-        String sql = "SELECT MIN(PRICE), MAX(PRICE), AVG(PRICE) FROM SERVICE";
+        String sql = "SELECT MIN(PRICE), MAX(PRICE), AVG(PRICE) FROM SERVICE WHERE RECORDSTATUS = 1;";
         
         try {
             Statement st = estDatabaseConnection().createStatement();
@@ -693,11 +705,10 @@ public class VSMSModel
     {
         ArrayList<MakeStatTableItem> list = new ArrayList<>();        
         //SQL statement
-        String sql = "SELECT V.MAKE, COUNT(V.MAKE)AS SERVICES FROM SERVICE AS S, VEHICLE AS V WHERE S.VEHICLEID = V.VEHICLEID GROUP BY V.MAKE";
+        String sql = "SELECT V.MAKE, COUNT(V.MAKE)AS SERVICES FROM SERVICE AS S, VEHICLE AS V WHERE S.VEHICLEID = V.VEHICLEID AND RECORDSTATUS = 1 GROUP BY V.MAKE;";
         
         try {
-            
-                           
+                                       
             Statement st = estDatabaseConnection().createStatement();
             ResultSet rs = st.executeQuery(sql);
 
@@ -712,7 +723,7 @@ public class VSMSModel
         }
         
         catch (Exception e) {
-            MessageView.displayError("Error occurred while displaying service report for number of services by make ");
+            MessageView.displayError("Error occurred while displaying service report for number of services by make");
         }
         
         ObservableList<MakeStatTableItem> makeStats = FXCollections.observableArrayList(list);
@@ -726,7 +737,7 @@ public class VSMSModel
         ArrayList<MakeStatTableItem> list = new ArrayList<>();   
         ArrayList<String> listReport = new ArrayList();
         //SQL statement
-        String sql = "SELECT V.MAKE, COUNT(V.MAKE) as SERVICES FROM SERVICE AS S, VEHICLE AS V WHERE S.VEHICLEID = V.VEHICLEID GROUP BY V.MAKE ORDER BY COUNT(V.MAKE) DESC LIMIT 3";
+        String sql = "SELECT V.MAKE, COUNT(V.MAKE) as SERVICES FROM SERVICE AS S, VEHICLE AS V WHERE S.VEHICLEID = V.VEHICLEID AND RECORDSTATUS = 1 GROUP BY V.MAKE ORDER BY COUNT(V.MAKE) DESC LIMIT 3;";
         
         try {
             Statement st = estDatabaseConnection().createStatement();

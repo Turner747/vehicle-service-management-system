@@ -41,7 +41,6 @@ import model.Vehicle;
  * COIT12200
  */
 
-
 public class MessageView
 {
     private static final String WINDOW_TITLE = "Vehicle Service Management System";
@@ -54,7 +53,7 @@ public class MessageView
     // required for service creation and updating
     private static Vehicle serviceVeh; // temp object used for selecting over of vehicles
     private static TextField vehicleTextField; // display owner name
-    private static TableView<Vehicle> vehicleTableView; // used for display owner in owner selection
+    private static TableView<Vehicle> vehicleTableView; // used for display vehicle in vehicle selection
     
     /**
      * Display basic message
@@ -544,9 +543,7 @@ public class MessageView
         
         TextField odometerTextField = new TextField();
         odometerTextField.setPromptText("Enter current odometer");
-        
-        
-        
+                
         // add labels and textfields to the gridpane
         grid.add(new Label("Owner"), 0, 0);
         grid.add(ownerTextField, 1, 0);
@@ -707,9 +704,7 @@ public class MessageView
         
         TextField odometerTextField = new TextField();
         odometerTextField.setText(veh.getOdometer()+"");
-        
-        
-        
+                
         // add labels and textfields to the gridpane
         grid.add(new Label("Owner"), 0, 0);
         grid.add(ownerTextField, 1, 0);
@@ -863,11 +858,9 @@ public class MessageView
 
         TextField priceTextField = new TextField();
         priceTextField.setPromptText("Enter service price");
-        
-        
-        
+                
         // add labels and textfields to the gridpane
-        grid.add(new Label("Owner"), 0, 0);
+        grid.add(new Label("Vehicle"), 0, 0);
         grid.add(vehicleTextField, 1, 0);
         grid.add(selectVehicleBtn, 2, 0);
         
@@ -1008,11 +1001,9 @@ public class MessageView
 
         TextField priceTextField = new TextField();
         priceTextField.setText(serv.getPrice() + "");
-        
-        
-        
+                
         // add labels and textfields to the gridpane
-        grid.add(new Label("Owner"), 0, 0);
+        grid.add(new Label("Vehicle"), 0, 0);
         grid.add(vehicleTextField, 1, 0);
         grid.add(selectVehicleBtn, 2, 0);
         
@@ -1308,7 +1299,7 @@ public class MessageView
         
         vehicleIdCol.setCellValueFactory(new PropertyValueFactory<>("vehicleID"));
         licencePlateCol.setCellValueFactory(new PropertyValueFactory<>("licencePlate"));
-        makeCol.setCellValueFactory(new PropertyValueFactory<>("model"));
+        makeCol.setCellValueFactory(new PropertyValueFactory<>("make"));
         modelCol.setCellValueFactory(new PropertyValueFactory<>("model"));
         
         vehicleTableView.setPlaceholder(new Label("Search for a vehicle"));
@@ -1324,7 +1315,6 @@ public class MessageView
         // disable add button if all required inputs have not been entered
         Button add = (Button) dialog.getDialogPane().
                                 lookupButton(addInputButton);
-
         
         // validate inputs
         add.addEventFilter(ActionEvent.ACTION, event -> 

@@ -12,17 +12,12 @@ package controller;
  * COIT12200
  */
 
-import java.util.ArrayList;
 import java.util.Date;
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.chart.BarChart;
-import javafx.scene.chart.CategoryAxis;
-import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
-import javafx.scene.chart.XYChart.Data;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
@@ -35,6 +30,7 @@ import view.*;
 public class VSMSViewController {
     
     //common buttons
+    
     @FXML
     private Button aboutBtn;
 
@@ -46,6 +42,7 @@ public class VSMSViewController {
 
     
     //customer tab
+    
     @FXML
     private Button addCustomerBtn;
     
@@ -63,6 +60,7 @@ public class VSMSViewController {
     
     
     // customer table
+    
     @FXML
     private TableView<Customer> customerTableView;
 
@@ -89,9 +87,9 @@ public class VSMSViewController {
     
     @FXML
     private TableColumn<Customer, String> phoneCol;
-    
-    
+        
     //service tab
+    
     @FXML
     private Button addServiceBtn;
     
@@ -109,9 +107,9 @@ public class VSMSViewController {
     
     @FXML
     private Button refreshServiceBtn;
-    
-    
+     
     //service table
+    
     @FXML
     private TableView<Service> serviceTableView;
     
@@ -120,6 +118,9 @@ public class VSMSViewController {
     
     @FXML
     private TableColumn<Service, Date> serviceDateCol;
+    
+    @FXML
+    private TableColumn<Service, String> serviceOwnerCol;
 
     @FXML
     private TableColumn<Service, String> serviceVehicleCol;
@@ -129,9 +130,9 @@ public class VSMSViewController {
 
     @FXML
     private TableColumn<Service, Float> priceCol;
-
     
     //vehicle tab
+    
      @FXML
     private Button addVehicleBtn;
     
@@ -146,9 +147,9 @@ public class VSMSViewController {
     
     @FXML
     private Button refreshVehicleBtn;
-
     
     //vehicle table
+    
     @FXML
     private TableView<Vehicle> vehicleTableView;
     
@@ -196,7 +197,6 @@ public class VSMSViewController {
     @FXML
     private TableColumn<MakeStatTableItem, Integer> serviceStatCol;
     
-
     @FXML
     void initialize() 
     {
@@ -220,9 +220,10 @@ public class VSMSViewController {
         odometerCol.setCellValueFactory(new PropertyValueFactory<>("odometer"));
         
         
-        // construct vehicle table view
+        // construct service table view
         serviceIdCol.setCellValueFactory(new PropertyValueFactory<>("serviceID"));
         serviceDateCol.setCellValueFactory(new PropertyValueFactory<>("serviceDate"));
+        serviceOwnerCol.setCellValueFactory(new PropertyValueFactory<>("owner"));
         serviceVehicleCol.setCellValueFactory(new PropertyValueFactory<>("licencePlate"));
         descriptionCol.setCellValueFactory(new PropertyValueFactory<>("description"));
         priceCol.setCellValueFactory(new PropertyValueFactory<>("price"));
@@ -255,8 +256,7 @@ public class VSMSViewController {
     {
         MessageView.displayExitDialog(event);
     }
-    
-    
+        
     // customer tab button actions
     
     @FXML
@@ -318,7 +318,6 @@ public class VSMSViewController {
         refreshCustomerTable();
     }
 
-    
     // service tab button actions
     
     @FXML
@@ -404,7 +403,6 @@ public class VSMSViewController {
         refreshServiceTable();
     }
 
-    
     //vehicle tab button actions
     
     @FXML
@@ -439,9 +437,6 @@ public class VSMSViewController {
             MessageView.displayError("Please select a vehicle to edit");
         }
         
-        
-        
-        
         refreshVehicleTable();
     }
     
@@ -469,7 +464,6 @@ public class VSMSViewController {
         refreshVehicleTable();
     }
     
-
     // refresh data methods
 
     private void refreshReportsTab(){

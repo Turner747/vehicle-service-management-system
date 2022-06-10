@@ -18,6 +18,7 @@ public class Service
 {
     private int serviceID;
     private int vehicleID;
+    private String owner; //required for vehicle table
     private String licencePlate; // required for service table
     private String description;
     private LocalDate serviceDate;
@@ -41,11 +42,12 @@ public class Service
         this.recordStatus = 1;
     }
     
-    // full constructor for gettings Services from database, no licence plate
-    public Service(int serviceID, int vehicleID, String licencePlate, String description, LocalDate serviceDate, float price)
+    // full constructor for gettings Services from database with owner name
+    public Service(int serviceID, int vehicleID, String owner, String licencePlate, String description, LocalDate serviceDate, float price)
     {
         this.serviceID = serviceID;
         this.vehicleID = vehicleID;
+        this.owner = owner;
         this.licencePlate = licencePlate;
         this.description = description;
         this.serviceDate = serviceDate;
@@ -85,6 +87,16 @@ public class Service
     public void setVehicleID(int vehicleID)
     {
         this.vehicleID = vehicleID;
+    }
+    
+     public String getOwner()
+    {
+        return owner;
+    }
+
+    public void setOwner(String owner)
+    {
+        this.owner = owner;
     }
 
     public String getLicencePlate()

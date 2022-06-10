@@ -1,6 +1,5 @@
 package controller;
 
-
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -51,8 +50,7 @@ public class VSMS extends Application
         {
             Logger.getLogger(VSMS.class.getName()).log(Level.SEVERE, null, ex);
         }
-                        
-       
+              
     }
 
     /**
