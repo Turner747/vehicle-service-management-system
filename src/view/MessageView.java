@@ -1115,20 +1115,22 @@ public class MessageView
         
         // add labels and textfields to the gridpane
         grid.add(new Label("Developed by:"), 0, 0);
-        grid.add(new Label("Joshua Turner"), 1, 0);
-        grid.add(new Label("s0258441"), 2, 0);     
+        grid.add(new Label("The Deathly Hallows"), 1, 0, 2, 1);
         
-        grid.add(new Label("Isabel Rigby"), 1, 1);
-        grid.add(new Label("S0077632"), 2, 1); 
+        grid.add(new Label("Joshua Turner"), 1, 1);
+        grid.add(new Label("s0258441"), 2, 1);     
         
-        grid.add(new Label("Joshua Robertson"), 1, 2);
-        grid.add(new Label("12071409"), 2, 2); 
+        grid.add(new Label("Isabel Rigby"), 1, 2);
+        grid.add(new Label("S0077632"), 2, 2); 
         
-        grid.add(new Label("Version Number:"), 0, 3);
-        grid.add(new Label("TBA"), 1, 3);
+        grid.add(new Label("Joshua Robertson"), 1, 3);
+        grid.add(new Label("12071409"), 2, 3); 
         
-        grid.add(new Label("Version Date:"), 0, 4);
-        grid.add(new Label("10 June 2022"), 1, 4);
+        grid.add(new Label("Version Number:"), 0, 4);
+        grid.add(new Label("1.0"), 1, 4);
+        
+        grid.add(new Label("Version Date:"), 0, 5);
+        grid.add(new Label("10 June 2022"), 1, 5);
         
         a.getDialogPane().setContent(grid);    // add the grid to the dialog
         
