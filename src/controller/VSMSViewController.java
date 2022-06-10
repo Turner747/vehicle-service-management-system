@@ -270,6 +270,7 @@ public class VSMSViewController {
             VSMSModel.addCustomerToDB(newCust);
         
         refreshCustomerTable();
+        refreshReportsTab();
     }
     
     @FXML
@@ -291,6 +292,7 @@ public class VSMSViewController {
         }
         
         refreshCustomerTable();
+        refreshReportsTab();
     }
     
     @FXML
@@ -331,6 +333,7 @@ public class VSMSViewController {
             VSMSModel.addServiceToDB(newServ);
         
         refreshServiceTable();
+        refreshReportsTab();
     }
     
     @FXML
@@ -352,6 +355,7 @@ public class VSMSViewController {
         }
         
         refreshServiceTable();
+        refreshReportsTab();
     }
     
     @FXML
@@ -376,6 +380,7 @@ public class VSMSViewController {
         }
         
         refreshServiceTable();
+        refreshReportsTab();
     }
     
     @FXML
@@ -416,6 +421,7 @@ public class VSMSViewController {
             VSMSModel.addVehicleToDB(newVeh);
         
         refreshVehicleTable();
+        refreshReportsTab();
     }
 
     @FXML
@@ -438,6 +444,7 @@ public class VSMSViewController {
         }
         
         refreshVehicleTable();
+        refreshReportsTab();
     }
     
     @FXML
@@ -480,16 +487,18 @@ public class VSMSViewController {
         // top 3 brands by make statistics
         ObservableList<MakeStatTableItem> statChart = VSMSModel.serviceReportTopMakes(); // get make stats for bar chart from database
         
-        XYChart.Series sr = new XYChart.Series();
+        if(!statChart.isEmpty())
+        {
         
-        int max = 3;
-        
-        for (int i=0; i < max; i++) {        
-        
-        sr.getData().add(new XYChart.Data(statChart.get(i).getMake(),statChart.get(i).getNbrOfServices()));
-        
+            XYChart.Series sr = new XYChart.Series();
+
+            for (int i=0; i < statChart.size(); i++) {        
+
+            sr.getData().add(new XYChart.Data(statChart.get(i).getMake(),statChart.get(i).getNbrOfServices()));
+
+            }
+            brandBarChart.getData().addAll(sr);
         }
-        brandBarChart.getData().addAll(sr);
         
     }
     
