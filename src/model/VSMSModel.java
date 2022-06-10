@@ -460,7 +460,7 @@ public class VSMSModel
     public static void addServiceToDB(Service serv)
     {
         //SQL statement
-        String sql = "INSERT  INTO SERVICE (VEHICLEID, DESCRIPTION, SERVICEDATE, PRICE) VALUES (?,?,?,?)"; //auto in for serviceID AS ABOVE^^^
+        String sql = "INSERT  INTO SERVICE (VEHICLEID, DESCRIPTION, SERVICEDATE, PRICE) VALUES (?,?,?,?)"; 
         
         //run statement
         try {
@@ -485,7 +485,7 @@ public class VSMSModel
     public static void updateServiceInDB(Service serv)
     {
         //SQL statement
-        String sql = "UPDATE SERVICE SET VEHICLEID=?, DESCRIPTION=?, SERVICEDATE=?, PRICE=?, RECORDSTATUS=? WHERE SERVICEID=?"; //auto in for serviceID AS ABOVE^^^
+        String sql = "UPDATE SERVICE SET VEHICLEID=?, DESCRIPTION=?, SERVICEDATE=?, PRICE=?, RECORDSTATUS=? WHERE SERVICEID=?"; 
         
         //run statement
         try {
@@ -542,7 +542,7 @@ public class VSMSModel
                 serv.setVehicleID(rs.getInt("VehicleID"));
                 serv.setLicencePlate(rs.getString("LicencePlate"));
                 serv.setDescription(rs.getString("Description"));
-                serv.setPrice(rs.getFloat("Price")); //IS THIS THE CORRECT TYPE - SQL DB is decimal
+                serv.setPrice(rs.getFloat("Price")); 
                              
             }
                     
@@ -595,7 +595,7 @@ public class VSMSModel
                 service.setVehicleID(rs.getInt("VehicleID"));
                 service.setLicencePlate(rs.getString("LicencePlate"));
                 service.setDescription(rs.getString("Description"));
-                service.setPrice(rs.getFloat("Price")); //IS THIS THE CORRECT TYPE - SQL DB is decimal
+                service.setPrice(rs.getFloat("Price")); 
                 
                 list.add(service);
                                 
@@ -655,7 +655,7 @@ public class VSMSModel
                 service.setVehicleID(rs.getInt("VehicleID"));
                 service.setLicencePlate(rs.getString("LicencePlate"));
                 service.setDescription(rs.getString("Description"));
-                service.setPrice(rs.getFloat("Price")); //IS THIS THE CORRECT TYPE - SQL DB is decimal
+                service.setPrice(rs.getFloat("Price")); 
                 
                 list.add(service);
             }
@@ -672,9 +672,9 @@ public class VSMSModel
     }
     
     // get data for service prices
-    public static ArrayList<Integer> serviceReportStats()
+    public static ArrayList<Float> serviceReportStats()
     {
-        ArrayList<Integer> listReport = new ArrayList();       
+        ArrayList<Float> listReport = new ArrayList();       
         //SQL statement
         String sql = "SELECT MIN(PRICE), MAX(PRICE), AVG(PRICE) FROM SERVICE WHERE RECORDSTATUS = 1;";
         
@@ -685,9 +685,9 @@ public class VSMSModel
                 //loop through database results
             while(rs.next()) { 
 
-                listReport.add( rs.getInt("MIN(PRICE)"));
-                listReport.add(rs.getInt("MAX(PRICE)"));
-                listReport.add(rs.getInt("AVG(PRICE)"));
+                listReport.add( rs.getFloat("MIN(PRICE)"));
+                listReport.add(rs.getFloat("MAX(PRICE)"));
+                listReport.add(rs.getFloat("AVG(PRICE)"));
                                         
             }
                 
