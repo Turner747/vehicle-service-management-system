@@ -68,15 +68,15 @@ public class Service
     
     
     
-    //set and get methods
-    public void setServiceID(int serviceID)
-    {
-        this.serviceID = serviceID;
-    }
-    
+    //get and set methods
     public int getServiceID()
     {
         return serviceID;
+    }
+
+    public void setServiceID(int serviceID)
+    {
+        this.serviceID = serviceID;
     }
 
     public int getVehicleID()
@@ -88,8 +88,8 @@ public class Service
     {
         this.vehicleID = vehicleID;
     }
-    
-     public String getOwner()
+
+    public String getOwner()
     {
         return owner;
     }
@@ -108,35 +108,35 @@ public class Service
     {
         this.licencePlate = licencePlate;
     }
-    
-    public void setDescription(String description)
-    {
-        this.description = description;
-    }
-    
+
     public String getDescription()
     {
         return description;
     }
-    
-    public void setServiceDate(LocalDate serviceDate)
+
+    public void setDescription(String description)
     {
-        this.serviceDate = serviceDate;
+        this.description = description;
     }
-    
+
     public LocalDate getServiceDate()
     {
         return serviceDate;
     }
-    
-    public void setPrice(float price)
+
+    public void setServiceDate(LocalDate serviceDate)
     {
-        this.price = price;
+        this.serviceDate = serviceDate;
     }
-    
+
     public float getPrice()
     {
         return price;
+    }
+
+    public void setPrice(float price)
+    {
+        this.price = price;
     }
 
     public int getRecordStatus()
@@ -148,5 +148,5 @@ public class Service
     {
         this.recordStatus = recordStatus;
     }
-       
+    
 }
